@@ -1,0 +1,909 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>大理 / 丽江旅拍团队横向对比</title>
+  <style>
+    :root {
+      --paper: #f7f4ed;
+      --ink: #20211d;
+      --muted: #69675d;
+      --line: #d8d1c2;
+      --sage: #5f7660;
+      --moss: #2f4a39;
+      --clay: #a75e3e;
+      --sky: #47778c;
+      --white: #fffdf8;
+      --shadow: 0 16px 45px rgba(36, 37, 31, .12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, rgba(32,33,29,.04) 1px, transparent 1px) 0 0 / 44px 44px,
+        linear-gradient(0deg, rgba(32,33,29,.035) 1px, transparent 1px) 0 0 / 44px 44px,
+        var(--paper);
+      color: var(--ink);
+      font-family: "Microsoft YaHei UI", "PingFang SC", "Noto Serif SC", serif;
+      line-height: 1.72;
+    }
+
+    a { color: inherit; }
+    .wrap { max-width: 1440px; margin: 0 auto; padding: 28px; }
+
+    .hero {
+      min-height: 76vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(360px, .92fr);
+      gap: 28px;
+      align-items: stretch;
+      padding: 18px 0 36px;
+    }
+
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-top: 2px solid var(--ink);
+      border-bottom: 2px solid var(--ink);
+      padding: 34px 0 26px;
+    }
+
+    .kicker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 26px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .mark {
+      border: 1px solid var(--line);
+      background: rgba(255,253,248,.64);
+      padding: 4px 9px;
+      border-radius: 999px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 920px;
+      font-family: Georgia, "Times New Roman", "SimSun", serif;
+      font-size: clamp(42px, 7vw, 108px);
+      line-height: .94;
+      letter-spacing: 0;
+      font-weight: 600;
+    }
+
+    .hero-copy p {
+      max-width: 760px;
+      margin: 28px 0 0;
+      font-size: 18px;
+      color: #3d3c35;
+    }
+
+    .hero-panel {
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 16px;
+      min-height: 560px;
+    }
+
+    .hero-image {
+      min-height: 420px;
+      background-image: url("https://img.picbling.cn/user_cover_218091_dfb0a207-d2fc-44f3-a515-2164445e308c.jpg");
+      background-position: center;
+      background-size: cover;
+      border: 1px solid var(--ink);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-image::after {
+      content: "DALI / LIJIANG";
+      position: absolute;
+      right: 18px;
+      bottom: 14px;
+      color: var(--white);
+      font-size: 13px;
+      letter-spacing: .16em;
+      text-shadow: 0 1px 10px rgba(0,0,0,.55);
+    }
+
+    .quick-verdict {
+      background: var(--white);
+      border: 1px solid var(--ink);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      display: grid;
+      gap: 11px;
+    }
+
+    .verdict-row {
+      display: grid;
+      grid-template-columns: 84px 1fr;
+      gap: 12px;
+      align-items: start;
+      font-size: 15px;
+    }
+
+    .verdict-row strong { color: var(--moss); }
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: rgba(247,244,237,.92);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 14px 0;
+      margin: 0 -28px 28px;
+    }
+
+    .toolbar-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 28px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+    button {
+      border: 1px solid var(--ink);
+      background: var(--white);
+      color: var(--ink);
+      padding: 9px 13px;
+      border-radius: 0;
+      font: inherit;
+      cursor: pointer;
+      transition: transform .16s ease, background .16s ease, color .16s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button.active { background: var(--ink); color: var(--white); }
+
+    .toolbar-note {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .section-title {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: end;
+      margin: 50px 0 18px;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 12px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", "SimSun", serif;
+      font-size: clamp(28px, 4vw, 54px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .section-title p {
+      margin: 0;
+      max-width: 560px;
+      color: var(--muted);
+      font-size: 15px;
+      text-align: right;
+    }
+
+    .matrix {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+      border: 1px solid var(--ink);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .matrix th,
+    .matrix td {
+      border-bottom: 1px solid var(--line);
+      padding: 12px 14px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    .matrix th {
+      background: #272822;
+      color: var(--white);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .matrix td:first-child {
+      font-weight: 700;
+      min-width: 150px;
+    }
+
+    .tag {
+      display: inline-block;
+      margin: 2px 4px 2px 0;
+      padding: 2px 7px;
+      border: 1px solid var(--line);
+      background: rgba(95,118,96,.08);
+      color: var(--moss);
+      font-size: 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .tag.warn {
+      color: #7a3c25;
+      background: rgba(167,94,62,.1);
+      border-color: rgba(167,94,62,.34);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .team-card {
+      background: var(--white);
+      border: 1px solid var(--ink);
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: minmax(220px, .82fr) 1fr;
+      min-height: 460px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 150px;
+      gap: 2px;
+      background: var(--ink);
+      border-right: 1px solid var(--ink);
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      cursor: zoom-in;
+      filter: saturate(.96);
+    }
+
+    .gallery img:first-child {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    .team-body {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .city-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 8px;
+    }
+
+    .team-body h3 {
+      margin: 0;
+      font-size: 25px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .score {
+      margin: 12px 0 10px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--line);
+    }
+
+    .score div {
+      padding: 8px;
+      border-right: 1px solid var(--line);
+      text-align: center;
+    }
+
+    .score div:last-child { border-right: 0; }
+    .score span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+    }
+
+    .score strong {
+      display: block;
+      font-size: 18px;
+      color: var(--moss);
+      line-height: 1.2;
+    }
+
+    .details {
+      display: grid;
+      gap: 8px;
+      margin: 6px 0 16px;
+      font-size: 14px;
+      color: #373830;
+    }
+
+    .details b { color: var(--ink); }
+
+    .comment {
+      margin: 0 0 16px;
+      color: #444238;
+      font-size: 15px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .actions a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 7px 10px;
+      border: 1px solid var(--ink);
+      text-decoration: none;
+      background: #f5efe2;
+      font-size: 14px;
+    }
+
+    .actions a.primary {
+      background: var(--moss);
+      color: var(--white);
+      border-color: var(--moss);
+    }
+
+    .budget-board {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .budget {
+      background: var(--white);
+      border: 1px solid var(--ink);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .budget h3 { margin: 0 0 8px; font-size: 22px; }
+    .budget .price {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 34px;
+      line-height: 1.1;
+      color: var(--clay);
+      margin: 8px 0;
+    }
+
+    .budget p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .note-box {
+      background: var(--white);
+      border: 1px solid var(--ink);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .note-box h3 { margin: 0 0 12px; }
+    .note-box ul { margin: 0; padding-left: 20px; }
+    .note-box li { margin-bottom: 8px; }
+
+    .source-list {
+      background: #272822;
+      color: #eee9dd;
+      border: 1px solid #272822;
+      padding: 20px;
+      display: grid;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .source-list a { color: #f5d7a1; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 16, 13, .86);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 26px;
+      z-index: 20;
+    }
+
+    .modal.open { display: flex; }
+    .modal img {
+      max-width: min(1100px, 94vw);
+      max-height: 88vh;
+      object-fit: contain;
+      background: #111;
+      box-shadow: 0 18px 60px rgba(0,0,0,.45);
+    }
+
+    .modal button {
+      position: absolute;
+      right: 24px;
+      top: 20px;
+      color: var(--white);
+      border-color: var(--white);
+      background: transparent;
+    }
+
+    @media (max-width: 1180px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-panel { min-height: auto; }
+      .cards { grid-template-columns: 1fr; }
+      .budget-board { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 780px) {
+      .wrap { padding: 18px; }
+      .toolbar { margin-left: -18px; margin-right: -18px; }
+      .toolbar-inner { padding: 0 18px; }
+      .section-title { grid-template-columns: 1fr; }
+      .section-title p { text-align: left; }
+      .team-card { grid-template-columns: 1fr; }
+      .gallery { border-right: 0; border-bottom: 1px solid var(--ink); }
+      .matrix { display: block; overflow-x: auto; white-space: nowrap; }
+      .checklist { grid-template-columns: 1fr; }
+      .hero-image { min-height: 320px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-copy">
+        <div>
+          <div class="kicker">
+            <span class="mark">2026-06-04 调研版</span>
+            <span class="mark">二人仪式 + 旅拍</span>
+            <span class="mark">需要横版摄像短片</span>
+            <span class="mark">7月底-8月</span>
+          </div>
+          <h1>大理 / 丽江旅拍团队横向对比</h1>
+          <p>这页按你们的真实需求筛选：不是普通婚纱照，而是能把“二人仪式、旅拍、摄像短片、雨备、答谢宴播放素材”一起交代清楚的团队。图片来自商家公开作品页或官网封面，价格以公开页面为准，未公开的标为需询价。</p>
+        </div>
+      </div>
+      <aside class="hero-panel">
+        <div class="hero-image" aria-label="南画廊公开客片封面"></div>
+        <div class="quick-verdict">
+          <div class="verdict-row"><strong>首选方向</strong><span>如果不执着雪山辨识度，大理更稳：团队多、价格透明度高、洱海/礼堂/草坪更适合二人仪式。</span></div>
+          <div class="verdict-row"><strong>丽江优势</strong><span>雪山、古城、牧场、民族风更强，但要重点确认天气、路程、雨备、摄像短片交付。</span></div>
+          <div class="verdict-row"><strong>预算判断</strong><span>普通旅拍约 6k-14k；带二人仪式和横版短片，建议预留 12k-25k；高阶目的地婚礼约 20k 起。</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <nav class="toolbar">
+      <div class="toolbar-inner">
+        <div class="tabs" aria-label="筛选团队">
+          <button class="active" data-filter="all">全部</button>
+          <button data-filter="dali">大理</button>
+          <button data-filter="lijiang">丽江</button>
+          <button data-filter="priority">优先联系</button>
+          <button data-filter="ceremony">更适合二人仪式</button>
+        </div>
+        <div class="toolbar-note">点击客片可放大；预算和档期仍需最终微信/电话确认。</div>
+      </div>
+    </nav>
+
+    <section>
+      <div class="section-title">
+        <h2>一眼结论</h2>
+        <p>按“二人仪式 + 旅拍 + 摄像短片 + 答谢宴素材”排序，不按名气或低价排序。</p>
+      </div>
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th>团队</th>
+            <th>城市</th>
+            <th>公开预算</th>
+            <th>适配度</th>
+            <th>联系方式 / 地点</th>
+            <th>中肯判断</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>NanGallery 南画廊</td>
+            <td>大理，可拍丽江</td>
+            <td>大理 9580-17880；丽江 13580；目的地婚礼 19880；视频 MV 2000</td>
+            <td><span class="tag">二人仪式强</span><span class="tag">价格透明</span><span class="tag">有婚礼套系</span></td>
+            <td>电话 13324949273；微信 nanhualang3；大理马久邑59号</td>
+            <td>目前最值得优先问。它有明确目的地婚礼套系和视频加购，比较贴近你们需求。</td>
+          </tr>
+          <tr>
+            <td>ToSimple 图森</td>
+            <td>大理，可拍丽江</td>
+            <td>官网未公开套系价；按同类建议询价预留 12k-22k</td>
+            <td><span class="tag">纪实感</span><span class="tag">有微电影栏目</span><span class="tag warn">需询价</span></td>
+            <td>电话/微信 18187215171；地点：云南大理</td>
+            <td>画面和视频感不错，适合想要“旅拍不像流水线”的方案，但价格和仪式布置要问清楚。</td>
+          </tr>
+          <tr>
+            <td>大理朴遇旅拍</td>
+            <td>大理</td>
+            <td>官网未公开套系价；建议询价预留 8k-16k</td>
+            <td><span class="tag">情绪自然</span><span class="tag">客片合集</span><span class="tag warn">需确认摄像</span></td>
+            <td>电话 19048724587；微信 puyu616；大理钜融城左岸高地朴墅F7-1</td>
+            <td>适合自然、松弛、情绪感照片；但你们需要短片和仪式，务必确认是否能做。</td>
+          </tr>
+          <tr>
+            <td>海西里里旅拍</td>
+            <td>大理</td>
+            <td>官网未公开套系价；建议询价预留 8k-15k</td>
+            <td><span class="tag">大理本地场景多</span><span class="tag">海西海东客片多</span><span class="tag warn">仪式需确认</span></td>
+            <td>电话/微信 19887227035；大理银桥镇马久邑</td>
+            <td>大理场景覆盖好，适合作为大理备选；仪式和横版短片不是页面主打，需要问。</td>
+          </tr>
+          <tr>
+            <td>爱丨旅拍婚纱摄影</td>
+            <td>丽江，也有大理</td>
+            <td>公开路线 5999 / 6999 / 7999 / 8999</td>
+            <td><span class="tag">价格低</span><span class="tag">路线清楚</span><span class="tag warn">偏普通旅拍</span></td>
+            <td>电话 18108805381；微信 ilvpai882；丽江古城区束河街道东康六组三组</td>
+            <td>预算友好，但更像婚纱旅拍路线。若选它，仪式布置和横版短片可能要另加。</td>
+          </tr>
+          <tr>
+            <td>安吾旅拍</td>
+            <td>丽江，也有大理作品</td>
+            <td>官网未公开套系价；建议询价预留 6k-14k</td>
+            <td><span class="tag">丽江场景丰富</span><span class="tag">雪山/牧场</span><span class="tag warn">需确认短片</span></td>
+            <td>电话 19516862983；微信 Yi8898988；地址未公开</td>
+            <td>丽江场景覆盖比较细，适合做丽江备选；但页面更偏旅拍作品库，仪式要问清。</td>
+          </tr>
+          <tr>
+            <td>目及婚礼摄影</td>
+            <td>目的地婚礼摄影，可问云南</td>
+            <td>有“云南服务内容和报价”入口但隐藏价格；建议 10k+ 起询</td>
+            <td><span class="tag">婚礼摄影强</span><span class="tag">真实仪式经验</span><span class="tag warn">联系方式需平台咨询</span></td>
+            <td>官网前台隐藏联系方式；需预约咨询</td>
+            <td>如果你们最在意“仪式真实记录”和视频，不在意常规旅拍套系，它值得问。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>团队卡片和客片</h2>
+        <p>图片为公开展示图/客片封面；是否为完整真实客片，请联系商家索取近期同档期完整相册。</p>
+      </div>
+      <div class="cards" id="teamCards"></div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>预算怎么抓</h2>
+        <p>你们要的是二人仪式，不是普通婚纱照。低价套餐不一定错，但要防止短片、仪式、雨备全部另算。</p>
+      </div>
+      <div class="budget-board">
+        <div class="budget">
+          <h3>普通旅拍路线</h3>
+          <div class="price">¥5,999-9,999</div>
+          <p>更像拍婚纱照。适合预算优先，但要另问二人仪式、誓言收音、横版短片、雨备。</p>
+        </div>
+        <div class="budget">
+          <h3>旅拍 + 二人仪式 + 短片</h3>
+          <div class="price">¥12,000-22,000</div>
+          <p>更符合你们需求。核心是一个主场景、一个雨备场景、仪式记录、短片可投影。</p>
+        </div>
+        <div class="budget">
+          <h3>目的地婚礼定制</h3>
+          <div class="price">¥19,800+</div>
+          <p>适合重视仪式和服务统筹。要问是否含场地、布置、摄影、摄像、化妆、交付周期。</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>联系商家时直接问</h2>
+        <p>把这几句复制给商家，比泛泛问“多少钱”更容易得到可比较的报价。</p>
+      </div>
+      <div class="checklist">
+        <div class="note-box">
+          <h3>需求话术</h3>
+          <ul>
+            <li>我们是两个人参加，想做“二人仪式 + 旅拍”，不是单纯婚纱照。</li>
+            <li>时间在 2026 年 7 月底到 8 月，请问还有哪些档期？</li>
+            <li>需要横版摄像短片，12 月答谢宴投影播放，能否交付？多久交付？</li>
+            <li>下雨时仪式和拍摄分别在哪里做？雨备是否额外收费？</li>
+            <li>请发近期真实客片完整相册，不只要样片。</li>
+          </ul>
+        </div>
+        <div class="note-box">
+          <h3>报价必须拆开</h3>
+          <ul>
+            <li>摄影、摄像、化妆、服装、场地、布置分别是否包含。</li>
+            <li>精修多少张，原片是否全给，预告图多久给。</li>
+            <li>短片时长，横版/竖版，是否保留誓言原声。</li>
+            <li>交通费、门票、场地费、加班费、改期费是否另算。</li>
+            <li>定金、尾款、取消和改期规则。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>资料来源</h2>
+        <p>以下为本页使用的公开来源。实际下单前仍要微信/电话二次确认。</p>
+      </div>
+      <div class="source-list" id="source">
+        <a href="https://www.nanhualang.com/seriesList" target="_blank" rel="noreferrer">NanGallery 南画廊旅拍官网套系页</a>
+        <a href="https://tosimplepho.com/" target="_blank" rel="noreferrer">ToSimple 图森摄影官网</a>
+        <a href="https://www.puyulvpai.com/" target="_blank" rel="noreferrer">大理朴遇旅拍官网</a>
+        <a href="https://www.hxlllp.com/" target="_blank" rel="noreferrer">海西里里旅拍官网</a>
+        <a href="https://ilvpai1314.com/series/list" target="_blank" rel="noreferrer">爱丨旅拍婚纱摄影官网套系页</a>
+        <a href="https://www.anwuphoto.com/" target="_blank" rel="noreferrer">安吾旅拍官网</a>
+        <a href="https://mojiwedding.cn/" target="_blank" rel="noreferrer">目及婚礼摄影工作室官网</a>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <button type="button" id="closeModal">关闭</button>
+    <img alt="放大的客片" id="modalImg" />
+  </div>
+
+  <script>
+    const teams = [
+      {
+        id: "nangallery",
+        name: "NanGallery 南画廊旅拍",
+        city: "大理",
+        filter: ["all", "dali", "priority", "ceremony"],
+        priority: "优先联系",
+        fit: "二人仪式适配高",
+        budget: "公开价：大理9580-17880；丽江13580；目的地婚礼19880；视频MV 2000",
+        contact: "电话 13324949273；微信 nanhualang3",
+        address: "云南省大理市马久邑59号 南画廊摄影工作室",
+        scores: ["5", "5", "4", "5"],
+        labels: ["价格透明", "婚礼套系", "视频加购", "大理/丽江"],
+        comment: "最贴近你们需求的一家：有目的地婚礼套系，也有视频MV加购。优先问二人仪式是否可简化、横版短片是否能在答谢宴前交付。",
+        url: "https://www.nanhualang.com/seriesList",
+        images: [
+          "https://img.picbling.cn/user_cover_218091_dfb0a207-d2fc-44f3-a515-2164445e308c.jpg",
+          "https://img.picbling.cn/user_cover_218091_91940aea-e0d2-4fe8-82c1-58ad4343d0c2.jpg",
+          "https://img.picbling.cn/user_cover_218091_6d14cf05-7df1-4cf8-b03d-a2e847b34c6d.jpg",
+          "https://img.picbling.cn/user_cover_218091_fb652a17-7594-44ec-9aa1-c875657018f0.jpg",
+          "https://img.picbling.cn/user_cover_218091_ca8472ca-1985-4fa0-aac7-bfcb0252a874.jpg"
+        ]
+      },
+      {
+        id: "tosimple",
+        name: "ToSimple 图森摄影",
+        city: "大理",
+        filter: ["all", "dali", "priority"],
+        priority: "优先联系",
+        fit: "照片/短片气质强",
+        budget: "未公开套系价；建议询价预留 12000-22000",
+        contact: "电话/微信 18187215171",
+        address: "云南 大理，详细地址需问",
+        scores: ["4", "3", "5", "4"],
+        labels: ["纪实感", "微电影栏目", "真实客片", "需询价"],
+        comment: "更适合想要情绪和电影感，不想流水线婚纱照的方案。短板是公开套系价不清楚，要把二人仪式、摄像、雨备逐项问透。",
+        url: "https://tosimplepho.com/",
+        images: [
+          "https://img.picbling.cn/user_cover_260707_gfm83_260505_185215_1490_d4z82.jpeg",
+          "https://img.picbling.cn/user_cover_260707_ttjns_260505_185218_0130_tvxji.jpeg",
+          "https://img.picbling.cn/user_cover_260707_whxar_260505_185214_2310_ucq7n.jpeg",
+          "https://img.picbling.cn/user_cover_260707_iq4en_260505_185217_1410_3q87x.jpeg",
+          "https://img.picbling.cn/d991c94a-cf04-464f-85ca-5d11374ff2c3.jpeg"
+        ]
+      },
+      {
+        id: "puyu",
+        name: "大理朴遇旅拍",
+        city: "大理",
+        filter: ["all", "dali", "priority"],
+        priority: "备选",
+        fit: "自然情绪感",
+        budget: "未公开套系价；建议询价预留 8000-16000",
+        contact: "电话 19048724587；微信 puyu616",
+        address: "大理镇钜融城左岸高地朴墅F7-1",
+        scores: ["4", "2", "4", "4"],
+        labels: ["情绪自然", "客片合集", "需确认摄像", "大理本地"],
+        comment: "页面强调有情感的婚纱照，适合自然松弛风格。你们要问清楚：是否能做简短二人仪式、是否能出横版短片。",
+        url: "https://www.puyulvpai.com/",
+        images: [
+          "https://img.picbling.cn/user_cover_398911_ae1616e8-652e-489e-af6d-e2f7f99d83e1.jpg",
+          "https://img.picbling.cn/user_cover_398911_d9759d89-585c-4303-b632-5bde44832c74.jpg",
+          "https://img.picbling.cn/user_cover_398911_a16541dd-28c1-43bb-8df9-83c4cf0dfafe.jpg",
+          "https://img.picbling.cn/user_cover_398911_66cfcde7-6bb2-4748-80fc-66806f8ce4d9.jpg",
+          "https://img.picbling.cn/work_398911_57feafcc-5e63-4651-920b-f1968456dd70.jpg"
+        ]
+      },
+      {
+        id: "haixilili",
+        name: "海西里里旅拍",
+        city: "大理",
+        filter: ["all", "dali"],
+        priority: "备选",
+        fit: "大理场景丰富",
+        budget: "未公开套系价；建议询价预留 8000-15000",
+        contact: "电话/微信 19887227035",
+        address: "云南省大理市银桥镇马久邑",
+        scores: ["3", "2", "4", "4"],
+        labels: ["海西/海东", "本地场景", "需确认仪式", "需确认短片"],
+        comment: "大理本地作品和场景覆盖不错。更像旅拍团队，二人仪式和摄像短片要作为重点询价项。",
+        url: "https://www.hxlllp.com/",
+        images: [
+          "https://img.picbling.cn/user_cover_658766_2eb29739-efe8-495c-bf98-8ba33913b37a.jpg",
+          "https://img.picbling.cn/user_cover_658766_c59e8cfe-50cb-4e1a-bee5-7ec694cc767b.jpg",
+          "https://img.picbling.cn/user_cover_658766_16d9d129-24a6-4c23-bc0e-a9f788d90c56.jpg",
+          "https://img.picbling.cn/work_658766_7de35c2e-35d2-4788-920c-e9d06040f3aa.jpg",
+          "https://img.picbling.cn/work_658766_c520b617-50de-45ef-8a55-99d1b668bdf3.jpg"
+        ]
+      },
+      {
+        id: "ilvpai",
+        name: "爱丨旅拍婚纱摄影",
+        city: "丽江",
+        filter: ["all", "lijiang", "priority"],
+        priority: "预算友好",
+        fit: "普通旅拍强，仪式需加问",
+        budget: "公开路线价：5999 / 6999 / 7999 / 8999",
+        contact: "电话 18108805381；微信 ilvpai882",
+        address: "云南省丽江市古城区束河街道东康六组三组",
+        scores: ["3", "2", "3", "5"],
+        labels: ["价格透明", "路线价低", "丽江/大理", "需确认横版短片"],
+        comment: "预算优势明显，但页面更偏婚纱旅拍路线。若选它，别只订低价路线，要单独问二人仪式、横版短片、雨备和交付。",
+        url: "https://ilvpai1314.com/series/list",
+        images: [
+          "https://img.picbling.cn/user_cover_413380_bab69595-7a33-4eb9-87f5-fedb07aa2144.jpg",
+          "https://img.picbling.cn/user_cover_413380_f9309e36-362d-4d52-8751-c5d5907d133f.jpg",
+          "https://img.picbling.cn/user_cover_413380_296b0038-f62e-496d-b37b-0bf6c3c7575a.jpg",
+          "https://img.picbling.cn/1bf305a3-2170-4f47-9e35-0c0f8c3e52dc.jpg",
+          "https://img.picbling.cn/88111766-2a15-4e5d-afec-229f08919d0b.jpeg"
+        ]
+      },
+      {
+        id: "anwu",
+        name: "安吾旅拍",
+        city: "丽江",
+        filter: ["all", "lijiang"],
+        priority: "备选",
+        fit: "丽江场景覆盖多",
+        budget: "未公开套系价；建议询价预留 6000-14000",
+        contact: "电话 19516862983；微信 Yi8898988",
+        address: "地址未公开，需问",
+        scores: ["3", "2", "4", "3"],
+        labels: ["雪山/牧场", "古镇", "客片多", "需确认仪式"],
+        comment: "丽江场景分类很多，适合拿来比较雪山、牧场、古镇路线。它是否能做二人仪式和横版短片，需要重点确认。",
+        url: "https://www.anwuphoto.com/",
+        images: [
+          "https://img.picbling.cn/work_382489_b3526b1d-9421-4d72-a7e3-dbb6cf2b585d.jpg",
+          "https://img.picbling.cn/work_382489_8ad33f0b-462b-489a-b113-2486e2f85fa8.jpg",
+          "https://img.picbling.cn/work_382489_390cddf0-6f3f-458d-b2ff-dd39e20b8951.jpg",
+          "https://img.picbling.cn/work_382489_55390e86-81bc-4fcb-92ed-d1178e408d55.jpeg",
+          "https://img.picbling.cn/382489_1678956443260_244695129639986"
+        ]
+      },
+      {
+        id: "moji",
+        name: "目及婚礼摄影工作室",
+        city: "目的地婚礼摄影",
+        filter: ["all", "ceremony"],
+        priority: "定制婚礼备选",
+        fit: "仪式记录强",
+        budget: "云南服务报价入口隐藏；建议 10000+ 起询，实际按机位和服务定",
+        contact: "官网前台隐藏联系方式，需预约咨询",
+        address: "目的地团队，页面显示驻点巴厘岛；可问云南服务",
+        scores: ["5", "4", "3", "2"],
+        labels: ["婚礼摄影", "仪式经验", "价格隐藏", "需预约"],
+        comment: "它不是传统旅拍店，更偏婚礼摄影。如果你们重视仪式真实记录和短片质感，可作为高阶定制备选。",
+        url: "https://mojiwedding.cn/",
+        images: [
+          "https://img.picbling.cn/ea0b9b27-77c7-47fc-975a-21a86c23d3ee.jpeg",
+          "https://img.picbling.cn/d808236b-c1d7-4d6c-bb68-45c7e85ec061.jpeg",
+          "https://img.picbling.cn/85925ead-8587-436a-884c-c3e469668c03",
+          "https://img.picbling.cn/321e8445-7827-4730-bf92-9f40c04076d6",
+          "https://img.picbling.cn/601d006b-623e-44f1-9e2f-9e983fc4ed4a"
+        ]
+      }
+    ];
+
+    const cards = document.querySelector("#teamCards");
+    const buttons = document.querySelectorAll("[data-filter]");
+    const modal = document.querySelector("#modal");
+    const modalImg = document.querySelector("#modalImg");
+    const closeModal = document.querySelector("#closeModal");
+
+    function render(filter = "all") {
+      const visible = teams.filter(team => team.filter.includes(filter));
+      cards.innerHTML = visible.map(team => `
+        <article class="team-card" data-city="${team.city}">
+          <div class="gallery">
+            ${team.images.map((src, index) => `<img src="${src}" alt="${team.name}公开客片 ${index + 1}" loading="lazy" data-full="${src}">`).join("")}
+          </div>
+          <div class="team-body">
+            <div class="city-line"><span>${team.city}</span><span>${team.priority}</span></div>
+            <h3>${team.name}</h3>
+            <div class="score" aria-label="评分：仪式、透明、画面、预算">
+              <div><strong>${team.scores[0]}</strong><span>仪式</span></div>
+              <div><strong>${team.scores[1]}</strong><span>透明</span></div>
+              <div><strong>${team.scores[2]}</strong><span>画面</span></div>
+              <div><strong>${team.scores[3]}</strong><span>预算</span></div>
+            </div>
+            <div>${team.labels.map(label => `<span class="tag">${label}</span>`).join("")}</div>
+            <div class="details">
+              <div><b>预算：</b>${team.budget}</div>
+              <div><b>联系：</b>${team.contact}</div>
+              <div><b>地点：</b>${team.address}</div>
+              <div><b>适配：</b>${team.fit}</div>
+            </div>
+            <p class="comment">${team.comment}</p>
+            <div class="actions">
+              <a class="primary" href="${team.url}" target="_blank" rel="noreferrer">打开官网/作品页</a>
+              <a href="#source">看资料来源</a>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        buttons.forEach(item => item.classList.remove("active"));
+        button.classList.add("active");
+        render(button.dataset.filter);
+      });
+    });
+
+    document.addEventListener("click", event => {
+      const image = event.target.closest(".gallery img");
+      if (!image) return;
+      modalImg.src = image.dataset.full;
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+    });
+
+    closeModal.addEventListener("click", () => {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+      modalImg.removeAttribute("src");
+    });
+
+    modal.addEventListener("click", event => {
+      if (event.target === modal) closeModal.click();
+    });
+
+    render();
+  </script>
+</body>
+</html>
