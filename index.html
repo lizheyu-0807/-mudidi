@@ -6,270 +6,330 @@
   <title>大理 / 丽江旅拍团队横向对比</title>
   <style>
     :root {
-      --paper: #f7f4ed;
-      --ink: #20211d;
-      --muted: #69675d;
-      --line: #d8d1c2;
-      --sage: #5f7660;
-      --moss: #2f4a39;
-      --clay: #a75e3e;
-      --sky: #47778c;
-      --white: #fffdf8;
-      --shadow: 0 16px 45px rgba(36, 37, 31, .12);
+      --page: #f0ddc2;
+      --phone: #fffaf5;
+      --screen: #f8f1e9;
+      --card: #fffefd;
+      --warm-card: #fff5ed;
+      --ink: #241f1b;
+      --soft-ink: #625a53;
+      --muted: #8a8178;
+      --line: #f0d8cb;
+      --line-soft: #f4e8dd;
+      --coral: #f6745f;
+      --coral-soft: #fff0ec;
+      --mint: #c9edc9;
+      --green: #78d092;
+      --shadow: 0 22px 54px rgba(86, 64, 38, .14);
+      --soft-shadow: 0 12px 32px rgba(88, 72, 56, .08);
+      --radius-xl: 22px;
+      --radius-lg: 18px;
+      --radius-sm: 10px;
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
+      min-height: 100vh;
       background:
-        linear-gradient(90deg, rgba(32,33,29,.04) 1px, transparent 1px) 0 0 / 44px 44px,
-        linear-gradient(0deg, rgba(32,33,29,.035) 1px, transparent 1px) 0 0 / 44px 44px,
-        var(--paper);
+        radial-gradient(circle at 50% -8%, rgba(255, 220, 178, .9), transparent 34rem),
+        linear-gradient(180deg, #efd7b7 0%, #f7efe4 36%, #efe0cb 100%);
       color: var(--ink);
-      font-family: "Microsoft YaHei UI", "PingFang SC", "Noto Serif SC", serif;
-      line-height: 1.72;
+      font-family: "Microsoft YaHei UI", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+      line-height: 1.62;
     }
 
     a { color: inherit; }
-    .wrap { max-width: 1440px; margin: 0 auto; padding: 28px; }
+    button { font: inherit; }
 
-    .hero {
-      min-height: 76vh;
-      display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(360px, .92fr);
-      gap: 28px;
-      align-items: stretch;
-      padding: 18px 0 36px;
-    }
-
-    .hero-copy {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      border-top: 2px solid var(--ink);
-      border-bottom: 2px solid var(--ink);
-      padding: 34px 0 26px;
-    }
-
-    .kicker {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 26px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .mark {
-      border: 1px solid var(--line);
-      background: rgba(255,253,248,.64);
-      padding: 4px 9px;
-      border-radius: 999px;
-    }
-
-    h1 {
-      margin: 0;
-      max-width: 920px;
-      font-family: Georgia, "Times New Roman", "SimSun", serif;
-      font-size: clamp(42px, 7vw, 108px);
-      line-height: .94;
-      letter-spacing: 0;
-      font-weight: 600;
-    }
-
-    .hero-copy p {
-      max-width: 760px;
-      margin: 28px 0 0;
-      font-size: 18px;
-      color: #3d3c35;
-    }
-
-    .hero-panel {
-      display: grid;
-      grid-template-rows: 1fr auto;
-      gap: 16px;
-      min-height: 560px;
-    }
-
-    .hero-image {
-      min-height: 420px;
-      background-image: url("https://img.picbling.cn/user_cover_218091_dfb0a207-d2fc-44f3-a515-2164445e308c.jpg");
-      background-position: center;
-      background-size: cover;
-      border: 1px solid var(--ink);
-      position: relative;
+    .app-shell {
+      width: min(100% - 28px, 430px);
+      margin: 28px auto;
+      padding: 18px 18px 92px;
+      border: 1px solid rgba(255,255,255,.72);
+      border-radius: 36px;
+      background:
+        linear-gradient(180deg, #fffefe 0%, #fffaf5 18%, var(--screen) 100%);
+      box-shadow: var(--shadow);
       overflow: hidden;
     }
 
-    .hero-image::after {
-      content: "DALI / LIJIANG";
-      position: absolute;
-      right: 18px;
-      bottom: 14px;
-      color: var(--white);
-      font-size: 13px;
-      letter-spacing: .16em;
-      text-shadow: 0 1px 10px rgba(0,0,0,.55);
-    }
-
-    .quick-verdict {
-      background: var(--white);
-      border: 1px solid var(--ink);
-      box-shadow: var(--shadow);
-      padding: 18px;
-      display: grid;
-      gap: 11px;
-    }
-
-    .verdict-row {
-      display: grid;
-      grid-template-columns: 84px 1fr;
-      gap: 12px;
-      align-items: start;
-      font-size: 15px;
-    }
-
-    .verdict-row strong { color: var(--moss); }
-    .toolbar {
-      position: sticky;
-      top: 0;
-      z-index: 5;
-      background: rgba(247,244,237,.92);
-      backdrop-filter: blur(12px);
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      padding: 14px 0;
-      margin: 0 -28px 28px;
-    }
-
-    .toolbar-inner {
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 0 28px;
+    .statusbar {
       display: flex;
-      gap: 12px;
-      align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
+      align-items: center;
+      height: 24px;
+      padding: 0 6px;
+      font-size: 14px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
     }
 
-    .tabs { display: flex; flex-wrap: wrap; gap: 8px; }
-    button {
-      border: 1px solid var(--ink);
-      background: var(--white);
+    .switch {
+      width: 52px;
+      height: 28px;
+      padding: 4px;
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      border: 1px solid #dfd8d0;
+      border-radius: 999px;
+      background: #fff;
+    }
+
+    .switch i {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #dedede;
+    }
+
+    .app-top {
+      display: grid;
+      grid-template-columns: 36px 1fr 36px;
+      align-items: center;
+      min-height: 54px;
+    }
+
+    .app-top h1 {
+      margin: 0;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .icon-button,
+    .nav-item .nav-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-button {
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
       color: var(--ink);
-      padding: 9px 13px;
-      border-radius: 0;
-      font: inherit;
       cursor: pointer;
+    }
+
+    .icon-button svg,
+    .nav-icon svg {
+      width: 19px;
+      height: 19px;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .hero-card,
+    .next-card,
+    .progress-card,
+    .soft-card,
+    .team-card,
+    .budget,
+    .note-box,
+    .source-list {
+      border-radius: var(--radius-xl);
+      background: var(--card);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 118px;
+      padding: 20px 18px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 88% 88%, rgba(199, 238, 199, .76), transparent 7.8rem),
+        linear-gradient(135deg, #fffefe 0%, #fff4ec 82%);
+      animation: rise .38s ease both;
+    }
+
+    .eyebrow {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .hero-card h2,
+    .next-card h2 {
+      margin: 8px 0 4px;
+      font-size: 24px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .hero-card p,
+    .next-card p,
+    .soft-card p,
+    .budget p,
+    .note-box li {
+      margin: 0;
+      color: var(--soft-ink);
+      font-size: 14px;
+    }
+
+    .next-card {
+      position: relative;
+      overflow: hidden;
+      margin-top: 14px;
+      padding: 20px 20px 18px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 86% 88%, rgba(191, 235, 191, .8), transparent 6.6rem),
+        linear-gradient(135deg, #fffefd 0%, #fff3ec 80%);
+      animation: rise .38s ease .04s both;
+    }
+
+    .next-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 4px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .advice {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 8px;
+      align-items: start;
+      margin: 18px 0 14px;
+      padding: 12px;
+      border-radius: 13px;
+      background: rgba(255,255,255,.76);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .advice-icon {
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: var(--coral);
+      background: #fff;
+    }
+
+    .text-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .progress-card {
+      margin-top: 16px;
+      padding: 16px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: baseline;
+      margin: 22px 4px 10px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    .section-head span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .soft-card {
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .soft-card h3,
+    .budget h3,
+    .note-box h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .filter-card {
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: var(--radius-xl);
+      background: rgba(255,255,255,.74);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .tabs button,
+    .actions a,
+    .modal button {
+      min-height: 38px;
+      border: 0;
+      border-radius: 14px;
+      background: #fff4f0;
+      color: var(--soft-ink);
+      padding: 8px 12px;
+      cursor: pointer;
+      text-decoration: none;
       transition: transform .16s ease, background .16s ease, color .16s ease;
     }
 
-    button:hover { transform: translateY(-1px); }
-    button.active { background: var(--ink); color: var(--white); }
-
-    .toolbar-note {
-      color: var(--muted);
-      font-size: 14px;
+    .tabs button:hover,
+    .actions a:hover {
+      transform: translateY(-1px);
     }
 
-    .section-title {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 20px;
-      align-items: end;
-      margin: 50px 0 18px;
-      border-bottom: 2px solid var(--ink);
-      padding-bottom: 12px;
-    }
-
-    .section-title h2 {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", "SimSun", serif;
-      font-size: clamp(28px, 4vw, 54px);
-      line-height: 1;
-      letter-spacing: 0;
-    }
-
-    .section-title p {
-      margin: 0;
-      max-width: 560px;
-      color: var(--muted);
-      font-size: 15px;
-      text-align: right;
-    }
-
-    .matrix {
-      width: 100%;
-      border-collapse: collapse;
-      background: var(--white);
-      border: 1px solid var(--ink);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .matrix th,
-    .matrix td {
-      border-bottom: 1px solid var(--line);
-      padding: 12px 14px;
-      text-align: left;
-      vertical-align: top;
-      font-size: 14px;
-    }
-
-    .matrix th {
-      background: #272822;
-      color: var(--white);
-      font-weight: 500;
-      white-space: nowrap;
-    }
-
-    .matrix td:first-child {
-      font-weight: 700;
-      min-width: 150px;
-    }
-
-    .tag {
-      display: inline-block;
-      margin: 2px 4px 2px 0;
-      padding: 2px 7px;
-      border: 1px solid var(--line);
-      background: rgba(95,118,96,.08);
-      color: var(--moss);
-      font-size: 12px;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-
-    .tag.warn {
-      color: #7a3c25;
-      background: rgba(167,94,62,.1);
-      border-color: rgba(167,94,62,.34);
+    .tabs button.active,
+    .actions a.primary {
+      background: var(--coral-soft);
+      color: var(--coral);
+      font-weight: 900;
     }
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 22px;
+      gap: 14px;
     }
 
     .team-card {
-      background: var(--white);
-      border: 1px solid var(--ink);
-      box-shadow: var(--shadow);
-      display: grid;
-      grid-template-columns: minmax(220px, .82fr) 1fr;
-      min-height: 460px;
+      overflow: hidden;
+      padding: 0;
+      animation: rise .32s ease both;
     }
 
     .gallery {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-auto-rows: 150px;
-      gap: 2px;
-      background: var(--ink);
-      border-right: 1px solid var(--ink);
+      grid-template-columns: 1.2fr .8fr;
+      grid-template-rows: 126px 126px;
+      gap: 3px;
+      background: var(--line-soft);
     }
 
     .gallery img {
@@ -278,19 +338,25 @@
       object-fit: cover;
       display: block;
       cursor: zoom-in;
-      filter: saturate(.96);
+      filter: saturate(.98) contrast(1.02);
+      transition: filter .18s ease, transform .18s ease;
+    }
+
+    .gallery img:hover {
+      filter: saturate(1.08) contrast(1.04);
+      transform: scale(1.015);
     }
 
     .gallery img:first-child {
-      grid-column: span 2;
-      grid-row: span 2;
+      grid-row: 1 / span 2;
     }
 
+    .gallery img:nth-child(n+4) { display: none; }
+
     .team-body {
-      padding: 22px;
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
+      padding: 16px;
+      display: grid;
+      gap: 12px;
     }
 
     .city-line {
@@ -298,148 +364,233 @@
       justify-content: space-between;
       gap: 10px;
       color: var(--muted);
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      margin-bottom: 8px;
+      font-size: 12px;
     }
 
     .team-body h3 {
       margin: 0;
-      font-size: 25px;
-      line-height: 1.18;
+      font-size: 20px;
+      line-height: 1.24;
       letter-spacing: 0;
     }
 
-    .score {
-      margin: 12px 0 10px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border: 1px solid var(--line);
+    .fit-pill {
+      display: inline-flex;
+      width: fit-content;
+      max-width: 100%;
+      padding: 4px 9px;
+      border-radius: 999px;
+      color: var(--coral);
+      background: var(--coral-soft);
+      font-size: 12px;
+      font-weight: 900;
     }
 
-    .score div {
-      padding: 8px;
-      border-right: 1px solid var(--line);
+    .score {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .score-item {
+      padding: 8px 6px;
+      border-radius: 12px;
+      background: #fff7f1;
       text-align: center;
     }
 
-    .score div:last-child { border-right: 0; }
-    .score span {
+    .score-item strong {
       display: block;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.25;
+      color: var(--coral);
+      font-size: 18px;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
     }
 
-    .score strong {
+    .score-item span {
       display: block;
-      font-size: 18px;
-      color: var(--moss);
-      line-height: 1.2;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .label-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 4px 8px;
+      border-radius: 999px;
+      color: var(--coral);
+      background: var(--coral-soft);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .tag.warn {
+      color: #9d6b1d;
+      background: #fff6df;
     }
 
     .details {
       display: grid;
       gap: 8px;
-      margin: 6px 0 16px;
-      font-size: 14px;
-      color: #373830;
+      font-size: 13px;
+      color: var(--soft-ink);
     }
 
-    .details b { color: var(--ink); }
+    .details div {
+      padding: 11px 12px;
+      border-radius: 13px;
+      background: #fff8f2;
+    }
+
+    .details b {
+      display: block;
+      color: var(--ink);
+      font-size: 13px;
+      margin-bottom: 3px;
+    }
 
     .comment {
-      margin: 0 0 16px;
-      color: #444238;
-      font-size: 15px;
+      margin: 0;
+      padding: 12px;
+      border: 1px solid #ffd99d;
+      border-radius: 13px;
+      color: var(--ink);
+      background: #fff9eb;
+      font-size: 13px;
     }
 
     .actions {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
-      margin-top: auto;
     }
 
     .actions a {
       display: inline-flex;
       align-items: center;
-      min-height: 38px;
-      padding: 7px 10px;
-      border: 1px solid var(--ink);
-      text-decoration: none;
-      background: #f5efe2;
-      font-size: 14px;
+      justify-content: center;
+      min-width: 0;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 800;
     }
 
-    .actions a.primary {
-      background: var(--moss);
-      color: var(--white);
-      border-color: var(--moss);
-    }
-
-    .budget-board {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .budget {
-      background: var(--white);
-      border: 1px solid var(--ink);
-      padding: 20px;
-      box-shadow: var(--shadow);
-    }
-
-    .budget h3 { margin: 0 0 8px; font-size: 22px; }
-    .budget .price {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 34px;
-      line-height: 1.1;
-      color: var(--clay);
-      margin: 8px 0;
-    }
-
-    .budget p { margin: 0; color: var(--muted); font-size: 14px; }
-
+    .budget-board,
     .checklist {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
+      gap: 12px;
     }
 
+    .budget,
     .note-box {
-      background: var(--white);
-      border: 1px solid var(--ink);
-      padding: 20px;
-      box-shadow: var(--shadow);
+      padding: 16px;
     }
 
-    .note-box h3 { margin: 0 0 12px; }
-    .note-box ul { margin: 0; padding-left: 20px; }
-    .note-box li { margin-bottom: 8px; }
+    .budget .price {
+      margin: 6px 0 8px;
+      color: var(--coral);
+      font-size: 22px;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .note-box ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .note-box li {
+      position: relative;
+      padding-left: 34px;
+    }
+
+    .note-box li::before {
+      content: counter(step);
+      counter-increment: step;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--coral);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .note-box ul { counter-reset: step; }
 
     .source-list {
-      background: #272822;
-      color: #eee9dd;
-      border: 1px solid #272822;
-      padding: 20px;
+      padding: 16px;
       display: grid;
-      gap: 8px;
-      font-size: 14px;
+      gap: 9px;
     }
 
-    .source-list a { color: #f5d7a1; }
+    .source-list a {
+      color: var(--soft-ink);
+      font-size: 13px;
+      text-decoration-color: #e8c9b8;
+      text-underline-offset: 3px;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      z-index: 8;
+      width: min(calc(100% - 56px), 390px);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      margin-top: 18px;
+      padding: 8px;
+      border: 1px solid var(--line-soft);
+      border-radius: 22px;
+      background: rgba(255,255,255,.92);
+      box-shadow: 0 10px 26px rgba(72, 58, 44, .10);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-item {
+      min-height: 52px;
+      display: grid;
+      place-items: center;
+      gap: 3px;
+      border-radius: 16px;
+      color: #746c65;
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    .nav-item.active {
+      color: var(--coral);
+      background: var(--coral-soft);
+      font-weight: 800;
+    }
 
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(15, 16, 13, .86);
+      background: rgba(24, 20, 17, .86);
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 26px;
+      padding: 20px;
       z-index: 20;
     }
 
@@ -448,173 +599,117 @@
       max-width: min(1100px, 94vw);
       max-height: 88vh;
       object-fit: contain;
+      border-radius: 16px;
       background: #111;
       box-shadow: 0 18px 60px rgba(0,0,0,.45);
     }
 
     .modal button {
       position: absolute;
-      right: 24px;
+      right: 22px;
       top: 20px;
-      color: var(--white);
-      border-color: var(--white);
-      background: transparent;
+      color: #fff;
+      background: rgba(255,255,255,.14);
     }
 
-    @media (max-width: 1180px) {
-      .hero { grid-template-columns: 1fr; }
-      .hero-panel { min-height: auto; }
-      .cards { grid-template-columns: 1fr; }
-      .budget-board { grid-template-columns: 1fr; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    @media (max-width: 780px) {
-      .wrap { padding: 18px; }
-      .toolbar { margin-left: -18px; margin-right: -18px; }
-      .toolbar-inner { padding: 0 18px; }
-      .section-title { grid-template-columns: 1fr; }
-      .section-title p { text-align: left; }
-      .team-card { grid-template-columns: 1fr; }
-      .gallery { border-right: 0; border-bottom: 1px solid var(--ink); }
-      .matrix { display: block; overflow-x: auto; white-space: nowrap; }
-      .checklist { grid-template-columns: 1fr; }
-      .hero-image { min-height: 320px; }
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .app-shell {
+        width: 100%;
+        min-height: 100vh;
+        margin: 0;
+        border-radius: 0;
+        border: 0;
+      }
+
+      .gallery { grid-template-rows: 118px 118px; }
     }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <section class="hero">
-      <div class="hero-copy">
-        <div>
-          <div class="kicker">
-            <span class="mark">2026-06-04 调研版</span>
-            <span class="mark">二人仪式 + 旅拍</span>
-            <span class="mark">需要横版摄像短片</span>
-            <span class="mark">7月底-8月</span>
-          </div>
-          <h1>大理 / 丽江旅拍团队横向对比</h1>
-          <p>这页按你们的真实需求筛选：不是普通婚纱照，而是能把“二人仪式、旅拍、摄像短片、雨备、答谢宴播放素材”一起交代清楚的团队。图片来自商家公开作品页或官网封面，价格以公开页面为准，未公开的标为需询价。</p>
-        </div>
-      </div>
-      <aside class="hero-panel">
-        <div class="hero-image" aria-label="南画廊公开客片封面"></div>
-        <div class="quick-verdict">
-          <div class="verdict-row"><strong>首选方向</strong><span>如果不执着雪山辨识度，大理更稳：团队多、价格透明度高、洱海/礼堂/草坪更适合二人仪式。</span></div>
-          <div class="verdict-row"><strong>丽江优势</strong><span>雪山、古城、牧场、民族风更强，但要重点确认天气、路程、雨备、摄像短片交付。</span></div>
-          <div class="verdict-row"><strong>预算判断</strong><span>普通旅拍约 6k-14k；带二人仪式和横版短片，建议预留 12k-25k；高阶目的地婚礼约 20k 起。</span></div>
-        </div>
-      </aside>
+  <main class="app-shell" id="home">
+    <div class="statusbar">
+      <span>09:41</span>
+      <span class="switch" aria-hidden="true"><i></i><i></i></span>
+    </div>
+
+    <header class="app-top">
+      <span></span>
+      <h1>我的旅拍准备</h1>
+      <a class="icon-button" href="#source" aria-label="查看资料来源">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </a>
+    </header>
+
+    <section class="hero-card">
+      <div class="eyebrow"><span>二人仪式 + 旅拍</span><span>调研中</span></div>
+      <h2>大理 / 丽江选择准备</h2>
+      <p>7月底-8月 · 需要横版短片 · 答谢宴播放素材</p>
     </section>
 
-    <nav class="toolbar">
-      <div class="toolbar-inner">
+    <section class="next-card">
+      <div class="next-top"><span>下一步</span><span>本周</span></div>
+      <h2>先联系南画廊</h2>
+      <p>它最接近你们的组合需求：有目的地婚礼套系，也有视频 MV 加购。</p>
+      <div class="advice">
+        <span class="advice-icon">
+          <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="m9 12 2 2 4-5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        </span>
+        <span>不要只问“多少钱”。重点确认二人仪式、横版短片、雨备、交付周期和是否给完整客片。</span>
+      </div>
+      <a class="text-link" href="#teams">查看团队清单 <span>›</span></a>
+    </section>
+
+    <section class="progress-card">
+      <h2 class="section-head"><span>我的准备进度</span><span>17% 已完成</span></h2>
+      <div class="soft-card">
+        <h3>当前判断</h3>
+        <p>不执着雪山辨识度时，大理更稳；丽江要重点问天气、路程和雨备。</p>
+      </div>
+    </section>
+
+    <section id="teams">
+      <div class="section-head">
+        <h2>团队筛选</h2>
+        <span id="resultCount">7 家</span>
+      </div>
+      <div class="filter-card">
         <div class="tabs" aria-label="筛选团队">
           <button class="active" data-filter="all">全部</button>
           <button data-filter="dali">大理</button>
           <button data-filter="lijiang">丽江</button>
           <button data-filter="priority">优先联系</button>
-          <button data-filter="ceremony">更适合二人仪式</button>
+          <button data-filter="ceremony">二人仪式</button>
         </div>
-        <div class="toolbar-note">点击客片可放大；预算和档期仍需最终微信/电话确认。</div>
-      </div>
-    </nav>
-
-    <section>
-      <div class="section-title">
-        <h2>一眼结论</h2>
-        <p>按“二人仪式 + 旅拍 + 摄像短片 + 答谢宴素材”排序，不按名气或低价排序。</p>
-      </div>
-      <table class="matrix">
-        <thead>
-          <tr>
-            <th>团队</th>
-            <th>城市</th>
-            <th>公开预算</th>
-            <th>适配度</th>
-            <th>联系方式 / 地点</th>
-            <th>中肯判断</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>NanGallery 南画廊</td>
-            <td>大理，可拍丽江</td>
-            <td>大理 9580-17880；丽江 13580；目的地婚礼 19880；视频 MV 2000</td>
-            <td><span class="tag">二人仪式强</span><span class="tag">价格透明</span><span class="tag">有婚礼套系</span></td>
-            <td>电话 13324949273；微信 nanhualang3；大理马久邑59号</td>
-            <td>目前最值得优先问。它有明确目的地婚礼套系和视频加购，比较贴近你们需求。</td>
-          </tr>
-          <tr>
-            <td>ToSimple 图森</td>
-            <td>大理，可拍丽江</td>
-            <td>官网未公开套系价；按同类建议询价预留 12k-22k</td>
-            <td><span class="tag">纪实感</span><span class="tag">有微电影栏目</span><span class="tag warn">需询价</span></td>
-            <td>电话/微信 18187215171；地点：云南大理</td>
-            <td>画面和视频感不错，适合想要“旅拍不像流水线”的方案，但价格和仪式布置要问清楚。</td>
-          </tr>
-          <tr>
-            <td>大理朴遇旅拍</td>
-            <td>大理</td>
-            <td>官网未公开套系价；建议询价预留 8k-16k</td>
-            <td><span class="tag">情绪自然</span><span class="tag">客片合集</span><span class="tag warn">需确认摄像</span></td>
-            <td>电话 19048724587；微信 puyu616；大理钜融城左岸高地朴墅F7-1</td>
-            <td>适合自然、松弛、情绪感照片；但你们需要短片和仪式，务必确认是否能做。</td>
-          </tr>
-          <tr>
-            <td>海西里里旅拍</td>
-            <td>大理</td>
-            <td>官网未公开套系价；建议询价预留 8k-15k</td>
-            <td><span class="tag">大理本地场景多</span><span class="tag">海西海东客片多</span><span class="tag warn">仪式需确认</span></td>
-            <td>电话/微信 19887227035；大理银桥镇马久邑</td>
-            <td>大理场景覆盖好，适合作为大理备选；仪式和横版短片不是页面主打，需要问。</td>
-          </tr>
-          <tr>
-            <td>爱丨旅拍婚纱摄影</td>
-            <td>丽江，也有大理</td>
-            <td>公开路线 5999 / 6999 / 7999 / 8999</td>
-            <td><span class="tag">价格低</span><span class="tag">路线清楚</span><span class="tag warn">偏普通旅拍</span></td>
-            <td>电话 18108805381；微信 ilvpai882；丽江古城区束河街道东康六组三组</td>
-            <td>预算友好，但更像婚纱旅拍路线。若选它，仪式布置和横版短片可能要另加。</td>
-          </tr>
-          <tr>
-            <td>安吾旅拍</td>
-            <td>丽江，也有大理作品</td>
-            <td>官网未公开套系价；建议询价预留 6k-14k</td>
-            <td><span class="tag">丽江场景丰富</span><span class="tag">雪山/牧场</span><span class="tag warn">需确认短片</span></td>
-            <td>电话 19516862983；微信 Yi8898988；地址未公开</td>
-            <td>丽江场景覆盖比较细，适合做丽江备选；但页面更偏旅拍作品库，仪式要问清。</td>
-          </tr>
-          <tr>
-            <td>目及婚礼摄影</td>
-            <td>目的地婚礼摄影，可问云南</td>
-            <td>有“云南服务内容和报价”入口但隐藏价格；建议 10k+ 起询</td>
-            <td><span class="tag">婚礼摄影强</span><span class="tag">真实仪式经验</span><span class="tag warn">联系方式需平台咨询</span></td>
-            <td>官网前台隐藏联系方式；需预约咨询</td>
-            <td>如果你们最在意“仪式真实记录”和视频，不在意常规旅拍套系，它值得问。</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section>
-      <div class="section-title">
-        <h2>团队卡片和客片</h2>
-        <p>图片为公开展示图/客片封面；是否为完整真实客片，请联系商家索取近期同档期完整相册。</p>
       </div>
       <div class="cards" id="teamCards"></div>
     </section>
 
-    <section>
-      <div class="section-title">
+    <section id="budget">
+      <div class="section-head">
         <h2>预算怎么抓</h2>
-        <p>你们要的是二人仪式，不是普通婚纱照。低价套餐不一定错，但要防止短片、仪式、雨备全部另算。</p>
+        <span>防止漏项</span>
       </div>
       <div class="budget-board">
         <div class="budget">
           <h3>普通旅拍路线</h3>
           <div class="price">¥5,999-9,999</div>
-          <p>更像拍婚纱照。适合预算优先，但要另问二人仪式、誓言收音、横版短片、雨备。</p>
+          <p>更像拍婚纱照。适合预算优先，但要另问仪式、誓言收音、横版短片、雨备。</p>
         </div>
         <div class="budget">
           <h3>旅拍 + 二人仪式 + 短片</h3>
@@ -624,15 +719,15 @@
         <div class="budget">
           <h3>目的地婚礼定制</h3>
           <div class="price">¥19,800+</div>
-          <p>适合重视仪式和服务统筹。要问是否含场地、布置、摄影、摄像、化妆、交付周期。</p>
+          <p>适合重视仪式和统筹。要问是否含场地、布置、摄影、摄像、化妆、交付周期。</p>
         </div>
       </div>
     </section>
 
-    <section>
-      <div class="section-title">
+    <section id="questions">
+      <div class="section-head">
         <h2>联系商家时直接问</h2>
-        <p>把这几句复制给商家，比泛泛问“多少钱”更容易得到可比较的报价。</p>
+        <span>按项确认</span>
       </div>
       <div class="checklist">
         <div class="note-box">
@@ -646,7 +741,7 @@
           </ul>
         </div>
         <div class="note-box">
-          <h3>报价必须拆开</h3>
+          <h3>报价拆分</h3>
           <ul>
             <li>摄影、摄像、化妆、服装、场地、布置分别是否包含。</li>
             <li>精修多少张，原片是否全给，预告图多久给。</li>
@@ -658,12 +753,12 @@
       </div>
     </section>
 
-    <section>
-      <div class="section-title">
+    <section id="source">
+      <div class="section-head">
         <h2>资料来源</h2>
-        <p>以下为本页使用的公开来源。实际下单前仍要微信/电话二次确认。</p>
+        <span>公开页面</span>
       </div>
-      <div class="source-list" id="source">
+      <div class="source-list">
         <a href="https://www.nanhualang.com/seriesList" target="_blank" rel="noreferrer">NanGallery 南画廊旅拍官网套系页</a>
         <a href="https://tosimplepho.com/" target="_blank" rel="noreferrer">ToSimple 图森摄影官网</a>
         <a href="https://www.puyulvpai.com/" target="_blank" rel="noreferrer">大理朴遇旅拍官网</a>
@@ -673,6 +768,25 @@
         <a href="https://mojiwedding.cn/" target="_blank" rel="noreferrer">目及婚礼摄影工作室官网</a>
       </div>
     </section>
+
+    <nav class="bottom-nav" aria-label="页面导航">
+      <a class="nav-item active" href="#home">
+        <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></span>
+        <span>首页</span>
+      </a>
+      <a class="nav-item" href="#teams">
+        <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg></span>
+        <span>团队</span>
+      </a>
+      <a class="nav-item" href="#budget">
+        <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/></svg></span>
+        <span>预算</span>
+      </a>
+      <a class="nav-item" href="#source">
+        <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+        <span>来源</span>
+      </a>
+    </nav>
   </main>
 
   <div class="modal" id="modal" aria-hidden="true">
@@ -840,12 +954,15 @@
 
     const cards = document.querySelector("#teamCards");
     const buttons = document.querySelectorAll("[data-filter]");
+    const resultCount = document.querySelector("#resultCount");
     const modal = document.querySelector("#modal");
     const modalImg = document.querySelector("#modalImg");
     const closeModal = document.querySelector("#closeModal");
+    const scoreLabels = ["仪式", "透明", "画面", "预算"];
 
     function render(filter = "all") {
       const visible = teams.filter(team => team.filter.includes(filter));
+      resultCount.textContent = `${visible.length} 家`;
       cards.innerHTML = visible.map(team => `
         <article class="team-card" data-city="${team.city}">
           <div class="gallery">
@@ -854,18 +971,20 @@
           <div class="team-body">
             <div class="city-line"><span>${team.city}</span><span>${team.priority}</span></div>
             <h3>${team.name}</h3>
+            <span class="fit-pill">${team.fit}</span>
             <div class="score" aria-label="评分：仪式、透明、画面、预算">
-              <div><strong>${team.scores[0]}</strong><span>仪式</span></div>
-              <div><strong>${team.scores[1]}</strong><span>透明</span></div>
-              <div><strong>${team.scores[2]}</strong><span>画面</span></div>
-              <div><strong>${team.scores[3]}</strong><span>预算</span></div>
+              ${team.scores.map((score, index) => `
+                <div class="score-item">
+                  <strong>${score}</strong>
+                  <span>${scoreLabels[index]}</span>
+                </div>
+              `).join("")}
             </div>
-            <div>${team.labels.map(label => `<span class="tag">${label}</span>`).join("")}</div>
+            <div class="label-row">${team.labels.map(label => `<span class="tag${label.includes("需") || label.includes("隐藏") ? " warn" : ""}">${label}</span>`).join("")}</div>
             <div class="details">
               <div><b>预算：</b>${team.budget}</div>
               <div><b>联系：</b>${team.contact}</div>
               <div><b>地点：</b>${team.address}</div>
-              <div><b>适配：</b>${team.fit}</div>
             </div>
             <p class="comment">${team.comment}</p>
             <div class="actions">
