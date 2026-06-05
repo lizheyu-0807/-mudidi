@@ -46,7 +46,7 @@
     .app-shell {
       width: min(100% - 28px, 430px);
       margin: 28px auto;
-      padding: 18px 18px 92px;
+      padding: 18px 18px 204px;
       border: 1px solid rgba(255,255,255,.72);
       border-radius: 36px;
       background:
@@ -547,7 +547,18 @@
       text-underline-offset: 3px;
     }
 
+    .comments-dock {
+      position: fixed;
+      left: 50%;
+      bottom: 82px;
+      z-index: 9;
+      width: min(calc(100% - 56px), 390px);
+      transform: translateX(-50%);
+    }
+
     .comments-card {
+      max-height: 100px;
+      overflow: hidden;
       padding: 16px;
       border: 1px solid var(--line);
       border-radius: var(--radius-xl);
@@ -555,10 +566,17 @@
         radial-gradient(circle at 92% 96%, rgba(198, 238, 201, .72), transparent 6.5rem),
         linear-gradient(135deg, #fffefd 0%, #fff4ed 86%);
       box-shadow: var(--soft-shadow);
+      transition: max-height .22s ease, box-shadow .22s ease;
+    }
+
+    .comments-card.expanded {
+      max-height: min(72vh, 620px);
+      overflow: auto;
+      box-shadow: 0 18px 44px rgba(86, 64, 38, .18);
     }
 
     .comments-card h3 {
-      margin: 0 0 6px;
+      margin: 0 0 4px;
       font-size: 16px;
       line-height: 1.35;
     }
@@ -566,7 +584,33 @@
     .comments-card > p {
       margin: 0;
       color: var(--soft-ink);
-      font-size: 14px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .dock-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .dock-toggle {
+      min-width: 58px;
+      min-height: 32px;
+      border: 0;
+      border-radius: 999px;
+      color: var(--coral);
+      background: var(--coral-soft);
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .comments-card:not(.expanded) .comment-compose,
+    .comments-card:not(.expanded) .comment-list,
+    .comments-card:not(.expanded) .utterances-host {
+      display: none;
     }
 
     .comment-compose {
@@ -880,45 +924,6 @@
       </div>
     </section>
 
-    <section id="comments">
-      <div class="section-head">
-        <h2>网友评论与建议</h2>
-        <span>公开反馈</span>
-      </div>
-      <div class="comments-card">
-        <h3>帮这个评估页补充信息</h3>
-        <p>可以点评这个网址、补充旅拍团队体验、指出预算信息不准的地方，或者建议新增目的地。当前页面托管在 GitHub Pages，公开评论先通过 GitHub Issue 收集。</p>
-        <div class="comment-compose">
-          <label for="commentText">写下你的建议</label>
-          <textarea id="commentText" placeholder="例如：南画廊的短片交付周期建议单独标出；丽江团队可以增加雪山雨备评价。"></textarea>
-          <div class="comment-actions">
-            <a id="submitComment" href="https://github.com/lizheyu-0807/-mudidi/issues/new?title=%E6%97%85%E6%8B%8D%E8%AF%84%E4%BC%B0%E9%A1%B5%E5%BB%BA%E8%AE%AE&body=%E8%AF%B7%E5%86%99%E4%B8%8B%E4%BD%A0%E5%AF%B9%E8%BF%99%E4%B8%AA%E6%97%85%E6%8B%8D%E8%AF%84%E4%BC%B0%E9%A1%B5%E7%9A%84%E7%82%B9%E8%AF%84%E6%88%96%E5%BB%BA%E8%AE%AE%EF%BC%9A" target="_blank" rel="noreferrer">提交到 GitHub</a>
-            <button class="secondary" type="button" id="copyComment">复制建议</button>
-          </div>
-        </div>
-        <div class="comment-list" aria-label="评论说明">
-          <div class="comment-item">
-            <strong>评论机制 <span>GitHub</span></strong>
-            <p>页面内评论使用 GitHub Issues 保存，需要登录 GitHub。若下方评论框没有加载，请先使用上面的提交按钮。</p>
-          </div>
-          <div class="comment-item">
-            <strong>后续整理 <span>人工筛选</span></strong>
-            <p>有价值的预算、客片、服务体验建议，可以再整理回评估页主体。</p>
-          </div>
-        </div>
-        <div class="utterances-host">
-          <script src="https://utteranc.es/client.js"
-            repo="lizheyu-0807/-mudidi"
-            issue-term="pathname"
-            label="comment"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-          </script>
-        </div>
-      </div>
-    </section>
-
     <section id="source">
       <div class="section-head">
         <h2>资料来源</h2>
@@ -957,6 +962,46 @@
         <span>来源</span>
       </a>
     </nav>
+
+    <aside class="comments-dock" id="comments" aria-label="网友评论与建议窗口">
+      <div class="comments-card" id="commentsCard">
+        <div class="dock-head">
+          <div>
+            <h3>网友评论与建议</h3>
+            <p>点评这个网址、补充团队体验，或建议新增目的地。</p>
+          </div>
+          <button class="dock-toggle" type="button" id="toggleComments" aria-expanded="false">展开</button>
+        </div>
+        <div class="comment-compose">
+          <label for="commentText">写下你的建议</label>
+          <textarea id="commentText" placeholder="例如：南画廊的短片交付周期建议单独标出；丽江团队可以增加雪山雨备评价。"></textarea>
+          <div class="comment-actions">
+            <a id="submitComment" href="https://github.com/lizheyu-0807/-mudidi/issues/new?title=%E6%97%85%E6%8B%8D%E8%AF%84%E4%BC%B0%E9%A1%B5%E5%BB%BA%E8%AE%AE&body=%E8%AF%B7%E5%86%99%E4%B8%8B%E4%BD%A0%E5%AF%B9%E8%BF%99%E4%B8%AA%E6%97%85%E6%8B%8D%E8%AF%84%E4%BC%B0%E9%A1%B5%E7%9A%84%E7%82%B9%E8%AF%84%E6%88%96%E5%BB%BA%E8%AE%AE%EF%BC%9A" target="_blank" rel="noreferrer">提交到 GitHub</a>
+            <button class="secondary" type="button" id="copyComment">复制建议</button>
+          </div>
+        </div>
+        <div class="comment-list" aria-label="评论说明">
+          <div class="comment-item">
+            <strong>评论机制 <span>GitHub</span></strong>
+            <p>页面内评论使用 GitHub Issues 保存，需要登录 GitHub。若下方评论框没有加载，请先使用上面的提交按钮。</p>
+          </div>
+          <div class="comment-item">
+            <strong>后续整理 <span>人工筛选</span></strong>
+            <p>有价值的预算、客片、服务体验建议，可以再整理回评估页主体。</p>
+          </div>
+        </div>
+        <div class="utterances-host">
+          <script src="https://utteranc.es/client.js"
+            repo="lizheyu-0807/-mudidi"
+            issue-term="pathname"
+            label="comment"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+          </script>
+        </div>
+      </div>
+    </aside>
   </main>
 
   <div class="modal" id="modal" aria-hidden="true">
@@ -1131,6 +1176,9 @@
     const commentText = document.querySelector("#commentText");
     const submitComment = document.querySelector("#submitComment");
     const copyComment = document.querySelector("#copyComment");
+    const commentsCard = document.querySelector("#commentsCard");
+    const toggleComments = document.querySelector("#toggleComments");
+    const commentNav = document.querySelector('a[href="#comments"]');
     const scoreLabels = ["仪式", "透明", "画面", "预算"];
     const issueBase = "https://github.com/lizheyu-0807/-mudidi/issues/new";
 
@@ -1229,6 +1277,25 @@
       window.setTimeout(() => {
         copyComment.textContent = "复制建议";
       }, 1400);
+    });
+
+    function setCommentsOpen(open) {
+      commentsCard.classList.toggle("expanded", open);
+      toggleComments.textContent = open ? "收起" : "展开";
+      toggleComments.setAttribute("aria-expanded", String(open));
+    }
+
+    toggleComments.addEventListener("click", () => {
+      setCommentsOpen(!commentsCard.classList.contains("expanded"));
+      if (commentsCard.classList.contains("expanded")) {
+        window.setTimeout(() => commentText.focus(), 120);
+      }
+    });
+
+    commentNav.addEventListener("click", event => {
+      event.preventDefault();
+      setCommentsOpen(true);
+      window.setTimeout(() => commentText.focus(), 120);
     });
 
     updateCommentLink();
