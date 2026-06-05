@@ -557,22 +557,30 @@
     }
 
     .comments-card {
-      max-height: 100px;
+      max-height: 70px;
       overflow: hidden;
-      padding: 16px;
-      border: 1px solid var(--line);
+      padding: 12px 14px;
+      border: 1px solid rgba(255, 214, 201, .56);
       border-radius: var(--radius-xl);
       background:
-        radial-gradient(circle at 92% 96%, rgba(198, 238, 201, .72), transparent 6.5rem),
-        linear-gradient(135deg, #fffefd 0%, #fff4ed 86%);
-      box-shadow: var(--soft-shadow);
-      transition: max-height .22s ease, box-shadow .22s ease;
+        radial-gradient(circle at 92% 96%, rgba(198, 238, 201, .52), transparent 6.5rem),
+        linear-gradient(135deg, rgba(255,255,255,.58) 0%, rgba(255,244,237,.52) 86%);
+      box-shadow: 0 10px 28px rgba(88, 72, 56, .08);
+      backdrop-filter: blur(18px) saturate(1.18);
+      -webkit-backdrop-filter: blur(18px) saturate(1.18);
+      transition: max-height .22s ease, box-shadow .22s ease, background .22s ease, border-color .22s ease;
     }
 
     .comments-card.expanded {
       max-height: min(72vh, 620px);
       overflow: auto;
+      border-color: var(--line);
+      background:
+        radial-gradient(circle at 92% 96%, rgba(198, 238, 201, .72), transparent 6.5rem),
+        linear-gradient(135deg, #fffefd 0%, #fff4ed 86%);
       box-shadow: 0 18px 44px rgba(86, 64, 38, .18);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
     }
 
     .comments-card h3 {
@@ -586,6 +594,12 @@
       color: var(--soft-ink);
       font-size: 13px;
       line-height: 1.5;
+    }
+
+    .comments-card:not(.expanded) .dock-head p {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
     .dock-head {
@@ -607,10 +621,17 @@
       cursor: pointer;
     }
 
+    .comments-card:not(.expanded) .comment-summary,
     .comments-card:not(.expanded) .comment-compose,
     .comments-card:not(.expanded) .comment-list,
-    .comments-card:not(.expanded) .utterances-host {
+    .comments-card:not(.expanded) .comment-empty {
       display: none;
+    }
+
+    .comment-summary {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
     }
 
     .comment-compose {
@@ -679,12 +700,17 @@
       display: grid;
       gap: 10px;
       margin-top: 12px;
+      max-height: 190px;
+      overflow: auto;
     }
 
     .comment-item {
+      display: block;
       padding: 12px;
       border-radius: 15px;
       background: rgba(255,255,255,.82);
+      color: inherit;
+      text-decoration: none;
     }
 
     .comment-item strong {
@@ -706,16 +732,13 @@
       font-size: 13px;
     }
 
-    .utterances-host {
+    .comment-empty {
       margin-top: 12px;
-      overflow: hidden;
+      padding: 12px;
       border-radius: 15px;
-      background: rgba(255,255,255,.74);
-    }
-
-    .utterances {
-      max-width: 100%;
-      margin: 0;
+      color: var(--muted);
+      background: rgba(255,255,255,.72);
+      font-size: 13px;
     }
 
     .bottom-nav {
@@ -968,10 +991,13 @@
         <div class="dock-head">
           <div>
             <h3>网友评论与建议</h3>
-            <p>点评这个网址、补充团队体验，或建议新增目的地。</p>
+            <p>看看大家怎么评价，也可以补充你的建议。</p>
           </div>
           <button class="dock-toggle" type="button" id="toggleComments" aria-expanded="false">展开</button>
         </div>
+        <div class="comment-summary" id="commentSummary">正在加载评论...</div>
+        <div class="comment-list" id="commentList" aria-label="网友评论列表"></div>
+        <div class="comment-empty" id="commentEmpty">还没有公开评论。你可以先写第一条建议。</div>
         <div class="comment-compose">
           <label for="commentText">写下你的建议</label>
           <textarea id="commentText" placeholder="例如：南画廊的短片交付周期建议单独标出；丽江团队可以增加雪山雨备评价。"></textarea>
@@ -979,26 +1005,6 @@
             <a id="submitComment" href="https://github.com/lizheyu-0807/-mudidi/issues/new?title=%E6%97%85%E6%8B%8D%E8%AF%84%E4%BC%B0%E9%A1%B5%E5%BB%BA%E8%AE%AE&body=%E8%AF%B7%E5%86%99%E4%B8%8B%E4%BD%A0%E5%AF%B9%E8%BF%99%E4%B8%AA%E6%97%85%E6%8B%8D%E8%AF%84%E4%BC%B0%E9%A1%B5%E7%9A%84%E7%82%B9%E8%AF%84%E6%88%96%E5%BB%BA%E8%AE%AE%EF%BC%9A" target="_blank" rel="noreferrer">提交到 GitHub</a>
             <button class="secondary" type="button" id="copyComment">复制建议</button>
           </div>
-        </div>
-        <div class="comment-list" aria-label="评论说明">
-          <div class="comment-item">
-            <strong>评论机制 <span>GitHub</span></strong>
-            <p>页面内评论使用 GitHub Issues 保存，需要登录 GitHub。若下方评论框没有加载，请先使用上面的提交按钮。</p>
-          </div>
-          <div class="comment-item">
-            <strong>后续整理 <span>人工筛选</span></strong>
-            <p>有价值的预算、客片、服务体验建议，可以再整理回评估页主体。</p>
-          </div>
-        </div>
-        <div class="utterances-host">
-          <script src="https://utteranc.es/client.js"
-            repo="lizheyu-0807/-mudidi"
-            issue-term="pathname"
-            label="comment"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-          </script>
         </div>
       </div>
     </aside>
@@ -1179,8 +1185,12 @@
     const commentsCard = document.querySelector("#commentsCard");
     const toggleComments = document.querySelector("#toggleComments");
     const commentNav = document.querySelector('a[href="#comments"]');
+    const commentList = document.querySelector("#commentList");
+    const commentEmpty = document.querySelector("#commentEmpty");
+    const commentSummary = document.querySelector("#commentSummary");
     const scoreLabels = ["仪式", "透明", "画面", "预算"];
     const issueBase = "https://github.com/lizheyu-0807/-mudidi/issues/new";
+    const commentsApi = "https://api.github.com/repos/lizheyu-0807/-mudidi/issues?labels=comment&state=open&per_page=12";
 
     function render(filter = "all") {
       const visible = teams.filter(team => team.filter.includes(filter));
@@ -1261,6 +1271,53 @@
       submitComment.href = `${issueBase}?${params.toString()}`;
     }
 
+    function escapeHtml(value) {
+      return value
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function renderPublicComments(issues) {
+      const comments = issues.filter(issue => !issue.pull_request);
+      commentList.innerHTML = "";
+      if (!comments.length) {
+        commentSummary.textContent = "0 条公开评论";
+        commentEmpty.style.display = "";
+        return;
+      }
+      commentEmpty.style.display = "none";
+      commentSummary.textContent = `${comments.length} 条公开评论`;
+      commentList.innerHTML = comments.map(issue => {
+        const author = issue.user?.login || "网友";
+        const date = new Date(issue.created_at).toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" });
+        const body = (issue.body || issue.title || "").replace(/^##.*$/m, "").replace(/页面链接：.*$/m, "").trim();
+        const text = body || issue.title || "留下了一条建议。";
+        return `
+          <a class="comment-item" href="${issue.html_url}" target="_blank" rel="noreferrer">
+            <strong>${escapeHtml(author)}<span>${date}</span></strong>
+            <p>${escapeHtml(text).slice(0, 140)}</p>
+          </a>
+        `;
+      }).join("");
+    }
+
+    async function loadPublicComments() {
+      try {
+        const response = await fetch(commentsApi, {
+          headers: { "Accept": "application/vnd.github+json" }
+        });
+        if (!response.ok) throw new Error("comments unavailable");
+        renderPublicComments(await response.json());
+      } catch {
+        commentSummary.textContent = "评论暂时无法加载";
+        commentEmpty.textContent = "网络忙或访问受限，稍后再看。";
+        commentEmpty.style.display = "";
+      }
+    }
+
     commentText.addEventListener("input", updateCommentLink);
 
     copyComment.addEventListener("click", async () => {
@@ -1299,6 +1356,7 @@
     });
 
     updateCommentLink();
+    loadPublicComments();
     render();
   </script>
 </body>
