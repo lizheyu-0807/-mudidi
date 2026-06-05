@@ -547,6 +547,133 @@
       text-underline-offset: 3px;
     }
 
+    .comments-card {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background:
+        radial-gradient(circle at 92% 96%, rgba(198, 238, 201, .72), transparent 6.5rem),
+        linear-gradient(135deg, #fffefd 0%, #fff4ed 86%);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .comments-card h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .comments-card > p {
+      margin: 0;
+      color: var(--soft-ink);
+      font-size: 14px;
+    }
+
+    .comment-compose {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 15px;
+      background: rgba(255,255,255,.78);
+    }
+
+    .comment-compose label {
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .comment-compose textarea {
+      width: 100%;
+      min-height: 92px;
+      resize: vertical;
+      border: 0;
+      border-radius: 13px;
+      padding: 12px;
+      outline: 1px solid var(--line-soft);
+      background: #fff9f3;
+      color: var(--ink);
+      font: inherit;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .comment-compose textarea:focus {
+      outline-color: #ffc5b8;
+      box-shadow: 0 0 0 3px rgba(246,116,95,.12);
+    }
+
+    .comment-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .comment-actions a,
+    .comment-actions button {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      border-radius: 14px;
+      background: var(--coral-soft);
+      color: var(--coral);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .comment-actions button.secondary {
+      background: #fff7f1;
+      color: var(--soft-ink);
+    }
+
+    .comment-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .comment-item {
+      padding: 12px;
+      border-radius: 15px;
+      background: rgba(255,255,255,.82);
+    }
+
+    .comment-item strong {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+
+    .comment-item span {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .comment-item p {
+      margin: 0;
+      color: var(--soft-ink);
+      font-size: 13px;
+    }
+
+    .utterances-host {
+      margin-top: 12px;
+      overflow: hidden;
+      border-radius: 15px;
+      background: rgba(255,255,255,.74);
+    }
+
+    .utterances {
+      max-width: 100%;
+      margin: 0;
+    }
+
     .bottom-nav {
       position: fixed;
       left: 50%;
@@ -555,7 +682,7 @@
       z-index: 8;
       width: min(calc(100% - 56px), 390px);
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 4px;
       margin-top: 18px;
       padding: 8px;
@@ -753,6 +880,45 @@
       </div>
     </section>
 
+    <section id="comments">
+      <div class="section-head">
+        <h2>网友评论与建议</h2>
+        <span>公开反馈</span>
+      </div>
+      <div class="comments-card">
+        <h3>帮这个评估页补充信息</h3>
+        <p>可以点评这个网址、补充旅拍团队体验、指出预算信息不准的地方，或者建议新增目的地。当前页面托管在 GitHub Pages，公开评论先通过 GitHub Issue 收集。</p>
+        <div class="comment-compose">
+          <label for="commentText">写下你的建议</label>
+          <textarea id="commentText" placeholder="例如：南画廊的短片交付周期建议单独标出；丽江团队可以增加雪山雨备评价。"></textarea>
+          <div class="comment-actions">
+            <a id="submitComment" href="https://github.com/lizheyu-0807/-mudidi/issues/new?title=%E6%97%85%E6%8B%8D%E8%AF%84%E4%BC%B0%E9%A1%B5%E5%BB%BA%E8%AE%AE&body=%E8%AF%B7%E5%86%99%E4%B8%8B%E4%BD%A0%E5%AF%B9%E8%BF%99%E4%B8%AA%E6%97%85%E6%8B%8D%E8%AF%84%E4%BC%B0%E9%A1%B5%E7%9A%84%E7%82%B9%E8%AF%84%E6%88%96%E5%BB%BA%E8%AE%AE%EF%BC%9A" target="_blank" rel="noreferrer">提交到 GitHub</a>
+            <button class="secondary" type="button" id="copyComment">复制建议</button>
+          </div>
+        </div>
+        <div class="comment-list" aria-label="评论说明">
+          <div class="comment-item">
+            <strong>评论机制 <span>GitHub</span></strong>
+            <p>页面内评论使用 GitHub Issues 保存，需要登录 GitHub。若下方评论框没有加载，请先使用上面的提交按钮。</p>
+          </div>
+          <div class="comment-item">
+            <strong>后续整理 <span>人工筛选</span></strong>
+            <p>有价值的预算、客片、服务体验建议，可以再整理回评估页主体。</p>
+          </div>
+        </div>
+        <div class="utterances-host">
+          <script src="https://utteranc.es/client.js"
+            repo="lizheyu-0807/-mudidi"
+            issue-term="pathname"
+            label="comment"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+          </script>
+        </div>
+      </div>
+    </section>
+
     <section id="source">
       <div class="section-head">
         <h2>资料来源</h2>
@@ -781,6 +947,10 @@
       <a class="nav-item" href="#budget">
         <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/></svg></span>
         <span>预算</span>
+      </a>
+      <a class="nav-item" href="#comments">
+        <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/><path d="M8 9h8"/><path d="M8 13h5"/></svg></span>
+        <span>评论</span>
       </a>
       <a class="nav-item" href="#source">
         <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
@@ -958,7 +1128,11 @@
     const modal = document.querySelector("#modal");
     const modalImg = document.querySelector("#modalImg");
     const closeModal = document.querySelector("#closeModal");
+    const commentText = document.querySelector("#commentText");
+    const submitComment = document.querySelector("#submitComment");
+    const copyComment = document.querySelector("#copyComment");
     const scoreLabels = ["仪式", "透明", "画面", "预算"];
+    const issueBase = "https://github.com/lizheyu-0807/-mudidi/issues/new";
 
     function render(filter = "all") {
       const visible = teams.filter(team => team.filter.includes(filter));
@@ -1022,6 +1196,42 @@
       if (event.target === modal) closeModal.click();
     });
 
+    function updateCommentLink() {
+      const text = commentText.value.trim();
+      const body = [
+        "## 对旅拍评估页的建议",
+        "",
+        text || "请写下你对这个旅拍评估页的点评或建议。",
+        "",
+        `页面链接：${location.href}`
+      ].join("\n");
+      const params = new URLSearchParams({
+        title: "旅拍评估页建议",
+        body,
+        labels: "comment"
+      });
+      submitComment.href = `${issueBase}?${params.toString()}`;
+    }
+
+    commentText.addEventListener("input", updateCommentLink);
+
+    copyComment.addEventListener("click", async () => {
+      const text = commentText.value.trim();
+      const content = text || "请写下你对这个旅拍评估页的点评或建议。";
+      try {
+        await navigator.clipboard.writeText(content);
+        copyComment.textContent = "已复制";
+      } catch {
+        commentText.select();
+        document.execCommand("copy");
+        copyComment.textContent = "已复制";
+      }
+      window.setTimeout(() => {
+        copyComment.textContent = "复制建议";
+      }, 1400);
+    });
+
+    updateCommentLink();
     render();
   </script>
 </body>
