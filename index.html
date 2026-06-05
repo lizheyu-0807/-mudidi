@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>大理 / 丽江旅拍团队横向对比</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
       --page: #f0ddc2;
@@ -28,6 +29,7 @@
     }
 
     * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
@@ -550,14 +552,14 @@
     .comments-dock {
       position: fixed;
       left: 50%;
-      bottom: 82px;
+      bottom: 96px;
       z-index: 9;
       width: min(calc(100% - 56px), 390px);
       transform: translateX(-50%);
     }
 
     .comments-card {
-      max-height: 70px;
+      height: 86px;
       overflow: hidden;
       padding: 12px 14px;
       border: 1px solid rgba(255, 214, 201, .56);
@@ -568,12 +570,15 @@
       box-shadow: 0 10px 28px rgba(88, 72, 56, .08);
       backdrop-filter: blur(18px) saturate(1.18);
       -webkit-backdrop-filter: blur(18px) saturate(1.18);
-      transition: max-height .22s ease, box-shadow .22s ease, background .22s ease, border-color .22s ease;
+      transition: height .22s ease, box-shadow .22s ease, background .22s ease, border-color .22s ease;
     }
 
     .comments-card.expanded {
-      max-height: min(72vh, 620px);
-      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      height: min(calc(100vh - 210px), 680px);
+      min-height: 430px;
+      overflow: hidden;
       border-color: var(--line);
       background:
         radial-gradient(circle at 92% 96%, rgba(198, 238, 201, .72), transparent 6.5rem),
@@ -624,7 +629,10 @@
     .comments-card:not(.expanded) .comment-summary,
     .comments-card:not(.expanded) .comment-compose,
     .comments-card:not(.expanded) .comment-list,
-    .comments-card:not(.expanded) .comment-empty {
+    .comments-card:not(.expanded) .comment-empty,
+    .comments-card:not(.expanded) .reply-state,
+    .comments-card:not(.expanded) .comment-status,
+    .comments-card:not(.expanded) .config-note {
       display: none;
     }
 
@@ -632,15 +640,27 @@
       margin-top: 8px;
       color: var(--muted);
       font-size: 12px;
+      flex: 0 0 auto;
     }
 
     .comment-compose {
       display: grid;
-      gap: 10px;
-      margin-top: 12px;
-      padding: 12px;
+      gap: 7px;
+      margin-top: 10px;
+      padding: 9px;
       border-radius: 15px;
       background: rgba(255,255,255,.78);
+      flex: 0 0 auto;
+    }
+
+    .comment-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .comment-row > div {
+      min-width: 0;
     }
 
     .comment-compose label {
@@ -649,13 +669,12 @@
       font-weight: 900;
     }
 
+    .comment-compose input,
     .comment-compose textarea {
       width: 100%;
-      min-height: 92px;
-      resize: vertical;
       border: 0;
       border-radius: 13px;
-      padding: 12px;
+      padding: 10px;
       outline: 1px solid var(--line-soft);
       background: #fff9f3;
       color: var(--ink);
@@ -664,6 +683,16 @@
       line-height: 1.55;
     }
 
+    .comment-compose input {
+      min-height: 36px;
+    }
+
+    .comment-compose textarea {
+      min-height: 76px;
+      resize: none;
+    }
+
+    .comment-compose input:focus,
     .comment-compose textarea:focus {
       outline-color: #ffc5b8;
       box-shadow: 0 0 0 3px rgba(246,116,95,.12);
@@ -671,13 +700,13 @@
 
     .comment-actions {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 8px;
     }
 
     .comment-actions a,
     .comment-actions button {
-      min-height: 40px;
+      min-height: 36px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -696,12 +725,47 @@
       color: var(--soft-ink);
     }
 
+    .comment-actions button:disabled {
+      cursor: not-allowed;
+      opacity: .55;
+    }
+
+    .reply-state {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 12px;
+      color: var(--soft-ink);
+      background: rgba(255, 246, 232, .9);
+      font-size: 12px;
+    }
+
+    .reply-state.active {
+      display: flex;
+    }
+
+    .reply-state button {
+      border: 0;
+      border-radius: 999px;
+      color: var(--coral);
+      background: var(--coral-soft);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
     .comment-list {
       display: grid;
       gap: 10px;
       margin-top: 12px;
-      max-height: 190px;
+      min-height: 0;
       overflow: auto;
+      overscroll-behavior: contain;
+      padding-right: 2px;
+      flex: 1 1 auto;
     }
 
     .comment-item {
@@ -713,6 +777,11 @@
       text-decoration: none;
     }
 
+    .comment-item.reply {
+      margin-left: min(24px, calc(var(--reply-depth, 1) * 14px));
+      background: rgba(255, 248, 242, .72);
+    }
+
     .comment-item strong {
       display: flex;
       justify-content: space-between;
@@ -721,24 +790,94 @@
       font-size: 13px;
     }
 
+    .comment-item strong b {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .comment-item span {
       color: var(--muted);
       font-weight: 500;
+      white-space: nowrap;
     }
 
     .comment-item p {
       margin: 0;
       color: var(--soft-ink);
       font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .comment-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 9px;
+    }
+
+    .comment-tools button {
+      min-height: 28px;
+      border: 0;
+      border-radius: 999px;
+      color: var(--coral);
+      background: var(--coral-soft);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .comment-tools button.liked {
+      color: var(--muted);
+      background: #fff7f1;
+    }
+
+    .comment-status {
+      min-height: 18px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .comment-status:empty {
+      display: none;
+      min-height: 0;
+    }
+
+    .comment-status.error {
+      color: #a04734;
+    }
+
+    .comment-status.success {
+      color: #3d7c54;
+    }
+
+    .config-note {
+      display: none;
+      margin-top: 8px;
+      padding: 8px 10px;
+      border-radius: 13px;
+      color: var(--soft-ink);
+      background: rgba(255, 249, 235, .86);
+      font-size: 12px;
+      line-height: 1.55;
+      flex: 0 0 auto;
+    }
+
+    .config-note.show {
+      display: block;
     }
 
     .comment-empty {
-      margin-top: 12px;
-      padding: 12px;
+      margin-top: 10px;
+      padding: 10px;
       border-radius: 15px;
       color: var(--muted);
       background: rgba(255,255,255,.72);
       font-size: 13px;
+      flex: 0 0 auto;
     }
 
     .bottom-nav {
@@ -832,6 +971,7 @@
       }
 
       .gallery { grid-template-rows: 118px 118px; }
+      .comment-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -998,13 +1138,23 @@
         <div class="comment-summary" id="commentSummary">正在加载评论...</div>
         <div class="comment-list" id="commentList" aria-label="网友评论列表"></div>
         <div class="comment-empty" id="commentEmpty">还没有公开评论。你可以先写第一条建议。</div>
+        <div class="config-note" id="configNote">评论后台待配置；配置后即可发布、回复和点赞。</div>
         <div class="comment-compose">
-          <label for="commentText">写下你的建议</label>
-          <textarea id="commentText" placeholder="例如：南画廊的短片交付周期建议单独标出；丽江团队可以增加雪山雨备评价。"></textarea>
-          <div class="comment-actions">
-            <a id="submitComment" href="https://github.com/lizheyu-0807/-mudidi/issues/new?title=%E6%97%85%E6%8B%8D%E8%AF%84%E4%BC%B0%E9%A1%B5%E5%BB%BA%E8%AE%AE&body=%E8%AF%B7%E5%86%99%E4%B8%8B%E4%BD%A0%E5%AF%B9%E8%BF%99%E4%B8%AA%E6%97%85%E6%8B%8D%E8%AF%84%E4%BC%B0%E9%A1%B5%E7%9A%84%E7%82%B9%E8%AF%84%E6%88%96%E5%BB%BA%E8%AE%AE%EF%BC%9A" target="_blank" rel="noreferrer">提交到 GitHub</a>
-            <button class="secondary" type="button" id="copyComment">复制建议</button>
+          <div class="reply-state" id="replyState">
+            <span id="replyLabel">正在回复</span>
+            <button type="button" id="cancelReply">取消</button>
           </div>
+          <textarea id="commentText" maxlength="1000" placeholder="例如：南画廊的短片交付周期建议单独标出；丽江团队可以增加雪山雨备评价。"></textarea>
+          <div class="comment-row">
+            <div>
+              <label for="commentNickname">匿名昵称</label>
+              <input id="commentNickname" type="text" maxlength="18" placeholder="不填默认匿名网友">
+            </div>
+          </div>
+          <div class="comment-actions">
+            <button type="button" id="submitComment">发布评论</button>
+          </div>
+          <div class="comment-status" id="commentStatus" aria-live="polite"></div>
         </div>
       </div>
     </aside>
@@ -1179,18 +1329,33 @@
     const modal = document.querySelector("#modal");
     const modalImg = document.querySelector("#modalImg");
     const closeModal = document.querySelector("#closeModal");
+    const commentNickname = document.querySelector("#commentNickname");
     const commentText = document.querySelector("#commentText");
-    const submitComment = document.querySelector("#submitComment");
-    const copyComment = document.querySelector("#copyComment");
+    const submitCommentButton = document.querySelector("#submitComment");
     const commentsCard = document.querySelector("#commentsCard");
     const toggleComments = document.querySelector("#toggleComments");
     const commentNav = document.querySelector('a[href="#comments"]');
     const commentList = document.querySelector("#commentList");
     const commentEmpty = document.querySelector("#commentEmpty");
     const commentSummary = document.querySelector("#commentSummary");
+    const configNote = document.querySelector("#configNote");
+    const replyState = document.querySelector("#replyState");
+    const replyLabel = document.querySelector("#replyLabel");
+    const cancelReply = document.querySelector("#cancelReply");
+    const commentStatus = document.querySelector("#commentStatus");
     const scoreLabels = ["仪式", "透明", "画面", "预算"];
-    const issueBase = "https://github.com/lizheyu-0807/-mudidi/issues/new";
-    const commentsApi = "https://api.github.com/repos/lizheyu-0807/-mudidi/issues?labels=comment&state=open&per_page=12";
+    const SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
+    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+    const isSupabaseConfigured =
+      SUPABASE_URL.startsWith("https://") &&
+      !SUPABASE_URL.includes("YOUR_PROJECT_ID") &&
+      SUPABASE_ANON_KEY.length > 40 &&
+      !SUPABASE_ANON_KEY.includes("YOUR_SUPABASE");
+    const supabaseClient = isSupabaseConfigured && window.supabase
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+      : null;
+    let replyTargetId = null;
+    let cachedComments = [];
 
     function render(filter = "all") {
       const visible = teams.filter(team => team.filter.includes(filter));
@@ -1254,25 +1419,8 @@
       if (event.target === modal) closeModal.click();
     });
 
-    function updateCommentLink() {
-      const text = commentText.value.trim();
-      const body = [
-        "## 对旅拍评估页的建议",
-        "",
-        text || "请写下你对这个旅拍评估页的点评或建议。",
-        "",
-        `页面链接：${location.href}`
-      ].join("\n");
-      const params = new URLSearchParams({
-        title: "旅拍评估页建议",
-        body,
-        labels: "comment"
-      });
-      submitComment.href = `${issueBase}?${params.toString()}`;
-    }
-
     function escapeHtml(value) {
-      return value
+      return String(value ?? "")
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
@@ -1280,60 +1428,261 @@
         .replaceAll("'", "&#039;");
     }
 
-    function renderPublicComments(issues) {
-      const comments = issues.filter(issue => !issue.pull_request);
-      commentList.innerHTML = "";
-      if (!comments.length) {
+    let fallbackClientId = "";
+
+    function readLocalJson(key, fallback) {
+      try {
+        return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback));
+      } catch {
+        return fallback;
+      }
+    }
+
+    function writeLocalJson(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch {
+        // Some privacy modes block localStorage; comments still work without local de-dupe UI.
+      }
+    }
+
+    function getClientId() {
+      const key = "mudidi_comment_client_id";
+      try {
+        const stored = localStorage.getItem(key);
+        if (stored) return stored;
+        const next = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+        localStorage.setItem(key, next);
+        return next;
+      } catch {
+        if (!fallbackClientId) {
+          fallbackClientId = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+        }
+        return fallbackClientId;
+      }
+    }
+
+    function getLikedIds() {
+      return new Set(readLocalJson("mudidi_comment_liked_ids", []));
+    }
+
+    function markLiked(commentId) {
+      const likedIds = getLikedIds();
+      likedIds.add(commentId);
+      writeLocalJson("mudidi_comment_liked_ids", Array.from(likedIds));
+    }
+
+    function hasLiked(commentId) {
+      return getLikedIds().has(commentId);
+    }
+
+    function setCommentStatus(message, type = "") {
+      commentStatus.textContent = message;
+      commentStatus.className = `comment-status${type ? ` ${type}` : ""}`;
+    }
+
+    function formatCommentTime(value) {
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "";
+      return date.toLocaleString("zh-CN", {
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function sortByLikesThenTime(a, b) {
+      const likesDiff = (Number(b.likes_count) || 0) - (Number(a.likes_count) || 0);
+      if (likesDiff) return likesDiff;
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+    }
+
+    function sortRepliesByTime(a, b) {
+      return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+    }
+
+    function renderCommentItem(comment, childrenByParent, depth = 0) {
+      const liked = hasLiked(comment.id);
+      const replies = (childrenByParent.get(comment.id) || []).sort(sortRepliesByTime);
+      const replyMarkup = replies.map(reply => renderCommentItem(reply, childrenByParent, depth + 1)).join("");
+      return `
+        <article class="comment-item${depth ? " reply" : ""}" style="--reply-depth:${Math.min(depth, 3)}">
+          <strong>
+            <b>${escapeHtml(comment.nickname || "匿名网友")}</b>
+            <span>${formatCommentTime(comment.created_at)}</span>
+          </strong>
+          <p>${escapeHtml(comment.content)}</p>
+          <div class="comment-tools">
+            <button type="button" data-like-id="${comment.id}" class="${liked ? "liked" : ""}" ${liked ? "disabled" : ""}>${liked ? "已赞" : "点赞"} ${Number(comment.likes_count) || 0}</button>
+            <button type="button" data-reply-id="${comment.id}">回复</button>
+          </div>
+        </article>
+        ${replyMarkup}
+      `;
+    }
+
+    function renderComments(comments) {
+      cachedComments = (comments || []).map(comment => ({
+        ...comment,
+        likes_count: Number(comment.likes_count) || 0
+      }));
+
+      const roots = [];
+      const childrenByParent = new Map();
+
+      cachedComments.forEach(comment => {
+        if (comment.parent_id) {
+          const list = childrenByParent.get(comment.parent_id) || [];
+          list.push(comment);
+          childrenByParent.set(comment.parent_id, list);
+        } else {
+          roots.push(comment);
+        }
+      });
+
+      if (!cachedComments.length) {
+        commentList.innerHTML = "";
+        commentList.hidden = true;
         commentSummary.textContent = "0 条公开评论";
+        commentEmpty.textContent = "还没有公开评论。你可以先写第一条建议。";
         commentEmpty.style.display = "";
         return;
       }
+
+      commentList.hidden = false;
       commentEmpty.style.display = "none";
-      commentSummary.textContent = `${comments.length} 条公开评论`;
-      commentList.innerHTML = comments.map(issue => {
-        const author = issue.user?.login || "网友";
-        const date = new Date(issue.created_at).toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" });
-        const body = (issue.body || issue.title || "").replace(/^##.*$/m, "").replace(/页面链接：.*$/m, "").trim();
-        const text = body || issue.title || "留下了一条建议。";
-        return `
-          <a class="comment-item" href="${issue.html_url}" target="_blank" rel="noreferrer">
-            <strong>${escapeHtml(author)}<span>${date}</span></strong>
-            <p>${escapeHtml(text).slice(0, 140)}</p>
-          </a>
-        `;
-      }).join("");
+      commentSummary.textContent = `${cachedComments.length} 条公开评论 · 主评论按点赞数排序`;
+      commentList.innerHTML = roots
+        .sort(sortByLikesThenTime)
+        .map(comment => renderCommentItem(comment, childrenByParent))
+        .join("");
     }
 
-    async function loadPublicComments() {
+    async function loadComments() {
+      if (!supabaseClient) {
+        configNote.classList.add("show");
+        commentList.hidden = true;
+        commentSummary.textContent = "评论系统待配置";
+        commentEmpty.style.display = "none";
+        submitCommentButton.disabled = true;
+        return;
+      }
+
       try {
-        const response = await fetch(commentsApi, {
-          headers: { "Accept": "application/vnd.github+json" }
-        });
-        if (!response.ok) throw new Error("comments unavailable");
-        renderPublicComments(await response.json());
+        configNote.classList.remove("show");
+        submitCommentButton.disabled = false;
+        commentSummary.textContent = "正在加载评论...";
+        const { data, error } = await supabaseClient
+          .from("comments")
+          .select("id,parent_id,nickname,content,likes_count,hidden,created_at")
+          .eq("hidden", false)
+          .order("created_at", { ascending: false });
+        if (error) throw error;
+        renderComments(data || []);
       } catch {
+        commentList.innerHTML = "";
+        commentList.hidden = true;
         commentSummary.textContent = "评论暂时无法加载";
-        commentEmpty.textContent = "网络忙或访问受限，稍后再看。";
+        commentEmpty.textContent = "网络忙或评论后台未就绪，稍后再看。";
         commentEmpty.style.display = "";
       }
     }
 
-    commentText.addEventListener("input", updateCommentLink);
+    function clearReplyTarget() {
+      replyTargetId = null;
+      replyState.classList.remove("active");
+      replyLabel.textContent = "正在回复";
+    }
 
-    copyComment.addEventListener("click", async () => {
-      const text = commentText.value.trim();
-      const content = text || "请写下你对这个旅拍评估页的点评或建议。";
-      try {
-        await navigator.clipboard.writeText(content);
-        copyComment.textContent = "已复制";
-      } catch {
-        commentText.select();
-        document.execCommand("copy");
-        copyComment.textContent = "已复制";
+    function setReplyTarget(comment) {
+      replyTargetId = comment.id;
+      replyLabel.textContent = `回复 ${comment.nickname || "匿名网友"}`;
+      replyState.classList.add("active");
+      setCommentsOpen(true);
+      window.setTimeout(() => commentText.focus(), 80);
+    }
+
+    async function submitComment() {
+      if (!supabaseClient) {
+        setCommentStatus("评论后台还没配置，暂时不能发布。", "error");
+        return;
       }
-      window.setTimeout(() => {
-        copyComment.textContent = "复制建议";
-      }, 1400);
+
+      const content = commentText.value.trim();
+      const nickname = commentNickname.value.trim() || "匿名网友";
+      if (!content) {
+        setCommentStatus("先写一点内容再发布。", "error");
+        commentText.focus();
+        return;
+      }
+
+      submitCommentButton.disabled = true;
+      submitCommentButton.textContent = "发布中...";
+      setCommentStatus("");
+      try {
+        const { error } = await supabaseClient
+          .from("comments")
+          .insert({
+            parent_id: replyTargetId,
+            nickname,
+            content
+          });
+        if (error) throw error;
+        commentText.value = "";
+        clearReplyTarget();
+        setCommentStatus("已发布，会按点赞数出现在公屏。", "success");
+        await loadComments();
+      } catch {
+        setCommentStatus("发布失败，内容先留在输入框里，请稍后再试。", "error");
+      } finally {
+        submitCommentButton.disabled = false;
+        submitCommentButton.textContent = "发布评论";
+      }
+    }
+
+    async function likeComment(commentId) {
+      if (!supabaseClient) {
+        setCommentStatus("评论后台还没配置，暂时不能点赞。", "error");
+        return;
+      }
+      if (hasLiked(commentId)) {
+        setCommentStatus("这条你已经点过赞了。");
+        return;
+      }
+
+      try {
+        const { error } = await supabaseClient
+          .from("comment_likes")
+          .insert({
+            comment_id: commentId,
+            client_id: getClientId()
+          });
+        if (error) throw error;
+        markLiked(commentId);
+        setCommentStatus("已点赞。", "success");
+        await loadComments();
+      } catch {
+        setCommentStatus("点赞失败，可能这条已经点过赞或网络暂时不可用。", "error");
+      }
+    }
+
+    submitCommentButton.addEventListener("click", submitComment);
+
+    cancelReply.addEventListener("click", clearReplyTarget);
+
+    commentList.addEventListener("click", event => {
+      const likeButton = event.target.closest("[data-like-id]");
+      if (likeButton) {
+        likeComment(likeButton.dataset.likeId);
+        return;
+      }
+
+      const replyButton = event.target.closest("[data-reply-id]");
+      if (replyButton) {
+        const comment = cachedComments.find(item => item.id === replyButton.dataset.replyId);
+        if (comment) setReplyTarget(comment);
+      }
     });
 
     function setCommentsOpen(open) {
@@ -1355,8 +1704,7 @@
       window.setTimeout(() => commentText.focus(), 120);
     });
 
-    updateCommentLink();
-    loadPublicComments();
+    loadComments();
     render();
   </script>
 </body>
